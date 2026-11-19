@@ -1,0 +1,831 @@
+<title>MATH5855 知识点树</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=STIX+Two+Text:ital@0;1&display=swap">
+<style>
+/* Layout: graph-paper ground; outline tree on the left, sticky detail card on the right; chains of connected ideas below. */
+:root{
+  --bg:#f3f5f8; --grid:#e3e8ef; --surface:#ffffff; --ink:#18202c; --muted:#5a6475; --line:#d6dce5;
+  --accent:#1f5f6e; --accent-soft:#e1eef1;
+  --proof:#6a4ca8; --proof-soft:#eee9f8;
+  --concept:#9a6210; --concept-soft:#f8eedd;
+  --calc:#17735c; --calc-soft:#dff2ec;
+  --code:#365d8f; --code-soft:#e3ebf6;
+  --exam:#b0364a; --exam-soft:#f9e3e7;
+  --ok:#2e7d4f;
+  --f-display:'Space Grotesk','Noto Sans SC',system-ui,sans-serif;
+  --f-body:'Noto Sans SC','PingFang SC',system-ui,sans-serif;
+  --f-math:'STIX Two Text','Times New Roman','Noto Sans SC',serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11151b; --grid:#1a2029; --surface:#181e26; --ink:#e5e9ef; --muted:#9aa4b3; --line:#2b3441;
+  --accent:#72b7c6; --accent-soft:#1c3036;
+  --proof:#b39ae6; --proof-soft:#2a2340;
+  --concept:#e0ad5c; --concept-soft:#352a17;
+  --calc:#5fc9a6; --calc-soft:#173229;
+  --code:#8fb3e3; --code-soft:#1c2a3d;
+  --exam:#ef8597; --exam-soft:#3a1d24;
+  --ok:#6cc893; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151b; --grid:#1a2029; --surface:#181e26; --ink:#e5e9ef; --muted:#9aa4b3; --line:#2b3441;
+  --accent:#72b7c6; --accent-soft:#1c3036;
+  --proof:#b39ae6; --proof-soft:#2a2340;
+  --concept:#e0ad5c; --concept-soft:#352a17;
+  --calc:#5fc9a6; --calc-soft:#173229;
+  --code:#8fb3e3; --code-soft:#1c2a3d;
+  --exam:#ef8597; --exam-soft:#3a1d24;
+  --ok:#6cc893; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px}
+.wrap{max-width:1240px;margin:0 auto;padding-block:28px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+h1{font-size:clamp(26px,4vw,36px);letter-spacing:-.01em}
+.sub{color:var(--muted);margin:6px 0 0;max-width:68ch}
+header{display:grid;gap:18px;margin-bottom:22px}
+.stats{display:flex;flex-wrap:wrap;gap:10px 22px;font-variant-numeric:tabular-nums}
+.stat b{font-family:var(--f-display);font-size:22px;display:block;line-height:1.1}
+.stat span{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.progress{height:6px;background:var(--line);border-radius:3px;overflow:hidden;max-width:420px}
+.progress i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.controls input{flex:1 1 220px;min-width:0;max-width:340px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip:focus-visible,.pt:focus-visible,.sec-h:focus-visible,.lnk:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ghost{background:none;border:none;color:var(--accent);font:inherit;font-size:13px;cursor:pointer;padding:6px 4px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:22px;align-items:start}
+.tree{display:grid;gap:14px;min-width:0}
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px 10px}
+.mod-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.mod-h h2{font-size:17px}
+.mod-h .en{font-size:12px;color:var(--muted)}
+.sec{border-left:2px solid var(--line);margin:6px 0 6px 6px;padding-left:12px}
+.sec-h{display:flex;gap:8px;align-items:center;width:100%;background:none;border:none;color:var(--ink);font:inherit;text-align:left;padding:4px 0;cursor:pointer}
+.sec-h .num{font-family:var(--f-display);font-size:12px;color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:0 6px;font-variant-numeric:tabular-nums}
+.sec-h .tt{font-weight:700}
+.sec-h .cnt{margin-left:auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sec-h .car{width:10px;color:var(--muted);transition:transform .15s}
+.sec[data-open="true"] .car{transform:rotate(90deg)}
+.pts{list-style:none;margin:2px 0 6px;padding:0 0 0 14px;display:grid;gap:1px}
+.sec[data-open="false"] .pts{display:none}
+.pts li{position:relative}
+.pts li::before{content:"";position:absolute;left:-10px;top:15px;width:7px;border-top:1px solid var(--line)}
+.pt{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:8px;padding:4px 8px;color:var(--ink);font:inherit;cursor:pointer}
+.pt:hover{background:var(--accent-soft)}
+.pt[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pt .name{flex:1 1 auto;min-width:0}
+.pt.done .name{color:var(--muted)}
+.pt.done .name::after{content:" ✓";color:var(--ok);font-weight:700}
+.tags{display:inline-flex;gap:3px}
+.tg{font-size:11px;line-height:1;padding:3px 5px;border-radius:4px;font-weight:500}
+.tg.P{color:var(--proof);background:var(--proof-soft)}
+.tg.C{color:var(--concept);background:var(--concept-soft)}
+.tg.N{color:var(--calc);background:var(--calc-soft)}
+.tg.R{color:var(--code);background:var(--code-soft)}
+.y22{font-size:11px;line-height:1;padding:3px 6px;border-radius:4px;color:var(--exam);background:var(--exam-soft);font-weight:700;font-variant-numeric:tabular-nums}
+.hide{display:none!important}
+mark{background:var(--concept-soft);color:inherit;border-radius:2px}
+
+.detail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 14px);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;max-height:calc(100vh - 28px);overflow:auto;min-width:0}
+.d-sec{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.detail h3{font-size:22px;margin:4px 0 2px}
+.d-en{color:var(--muted);font-size:13px;margin-bottom:10px}
+.d-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.d-badges .tg,.d-badges .y22{font-size:12px;padding:4px 8px}
+.blk{margin-top:14px}
+.blk h4{margin:0 0 6px;font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:500}
+.fx{display:grid;gap:6px}
+.fx div{font-family:var(--f-math);font-size:16px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 10px;overflow-x:auto}
+.fx sub,.fx sup{font-size:.72em}
+.lnks{display:grid;gap:6px}
+.lnk{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;text-align:left;background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink);font:inherit;cursor:pointer}
+.lnk:hover{border-color:var(--accent)}
+.lnk .to{font-weight:700;color:var(--accent);white-space:nowrap}
+.lnk .why{color:var(--muted);font-size:13px;min-width:0}
+.lnk .dir{grid-column:1/-1;font-size:11px;color:var(--muted)}
+.note{font-size:14px}
+.note code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg);padding:1px 6px;border-radius:4px;border:1px solid var(--line)}
+.none{color:var(--exam)}
+.mbtn{margin-top:18px;display:inline-flex;gap:8px;align-items:center;border:1px solid var(--ok);color:var(--ok);background:none;border-radius:8px;padding:7px 14px;font:inherit;cursor:pointer}
+.mbtn[aria-pressed="true"]{background:var(--ok);color:var(--surface)}
+
+.chains{margin-top:34px}
+.chains>h2{font-size:22px}
+.chains>p{color:var(--muted);margin:4px 0 16px;max-width:70ch}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:14px}
+.chain{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.chain h3{font-size:16px}
+.chain p{margin:4px 0 10px;color:var(--muted);font-size:14px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.flow .arr{color:var(--muted);font-size:13px}
+.flow .chip{font-size:12.5px;padding:4px 10px}
+.legend{display:grid;gap:8px;font-size:14px}
+.legend div{display:flex;gap:8px;align-items:center}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
+.tab{background:none;border:none;border-bottom:3px solid transparent;color:var(--muted);font:inherit;font-family:var(--f-display);font-size:16px;font-weight:700;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab span{font-family:var(--f-body);font-size:12px;font-weight:500;color:var(--muted);margin-left:4px;font-variant-numeric:tabular-nums}
+.qn{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.qn.zero{color:var(--exam);opacity:.75}
+.qgroup .pts{padding-left:4px}
+.qgroup .pts li::before{display:none}
+.pt .src{font-size:12px;color:var(--muted)}
+.pt .sub1{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pt .sub1 sub,.pt .sub1 sup{font-size:.75em}
+.pt.done .name::after{content:none}
+.pt.done .name{color:var(--muted)}
+.qgroup .pt.done::after{content:"✓";color:var(--ok);font-weight:700}
+.tree .pt.done::after{content:"✓";color:var(--ok);font-weight:700}
+.part{border-top:1px solid var(--line);padding-top:10px;margin-top:10px;display:grid;gap:6px}
+.part:first-child{border-top:none;margin-top:0;padding-top:0}
+.part .pl{font-weight:700;color:var(--accent);margin-right:6px}
+.kchips{display:flex;flex-wrap:wrap;gap:6px}
+.kchip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:3px 8px;font:inherit;font-size:13px;cursor:pointer}
+.kchip:hover{border-color:var(--accent);color:var(--accent)}
+.kchip small{color:var(--muted);margin-left:4px}
+.qlink{display:grid;grid-template-columns:1fr auto;gap:2px 10px;text-align:left;background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink);font:inherit;cursor:pointer}
+.qlink:hover{border-color:var(--accent)}
+.qlink .qt{font-weight:700;min-width:0}
+.qlink .qs{font-size:12px;color:var(--muted);white-space:nowrap}
+.qlink .qp{grid-column:1/-1;font-size:13px;color:var(--muted)}
+.qlink.done .qt::after{content:" ✓";color:var(--ok)}
+.sumchips{display:flex;flex-wrap:wrap;gap:6px}
+.zh{display:block;color:var(--muted);font-family:var(--f-body);font-size:.88em;font-weight:400;margin-top:2px;letter-spacing:0}
+.zhi{color:var(--muted);font-family:var(--f-body);font-size:.85em;font-weight:400;margin-left:6px;letter-spacing:0}
+.en-only .zh,.en-only .zhi{display:none!important}
+.detail h3+.zh{font-size:14px;margin-bottom:10px}
+.fx div .zh{font-size:13px}
+.stat .lb{font-size:12px;color:var(--muted);letter-spacing:.02em}
+.stat .lb .zhi{font-size:12px;margin-left:4px}
+.tab .zhi{font-size:13px}
+.lnk .to .zh{font-weight:400;font-size:12px}
+@media (max-width:860px){.layout{grid-template-columns:1fr}.detail{position:static;max-height:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <h1>MATH5855 Knowledge Tree<span class="zhi">知识点树</span></h1>
+    <p class="sub">Every topic from lecture Sections 0–15, tagged by question type (proof, concept, calculation, code), with 2022 exam marks and links between topics. The question bank covers lecture exercises and examples, both assignments, tutorials, the mock midterm and the 2022 final; each part of each question links to the topics it uses.<span class="zh">按讲义 Section 0–15 整理，每个知识点标了题型（证明、概念、计算、代码）、2022 期末的考点和分值，以及与其他知识点的关联。题库收录了讲义练习与例题、两次作业、Tutorial、期中模拟卷和 2022 期末，每道题按小问连到所用的知识点。</span></p>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+  <div><button type="button" class="chip" id="lang" aria-pressed="false">English + 中文 · 中英对照</button></div>
+</header>
+
+<div class="tabs" role="tablist">
+  <button type="button" class="tab" role="tab" id="tab-tree" aria-selected="true">Knowledge tree<span class="zhi">知识点树</span></button>
+  <button type="button" class="tab" role="tab" id="tab-q" aria-selected="false">Question bank<span class="zhi">题库</span><span id="qcount"></span></button>
+</div>
+
+<div id="view-tree">
+  <div class="controls" style="margin-bottom:18px">
+    <label for="q" class="hide">搜索知识点</label>
+    <input id="q" type="search" placeholder="Search: partial correlation / 偏相关 / Wishart">
+    <div id="filters" class="controls"></div>
+    <button class="ghost" id="openAll" type="button">Expand all<span class="zhi">全部展开</span></button>
+    <button class="ghost" id="closeAll" type="button">Collapse all<span class="zhi">全部收起</span></button>
+  </div>
+
+<div class="layout">
+  <nav class="tree" id="tree" aria-label="知识点树"></nav>
+  <aside class="detail" id="detail" aria-live="polite"></aside>
+</div>
+
+<section class="chains">
+  <h2>Connecting threads<span class="zhi">主线串联</span></h2>
+  <p>The same mathematical structure keeps coming back in different sections. Revising by thread is cheaper than revising by chapter: learn one, and the others just swap the matrices.<span class="zh">同一个数学结构在不同章节反复出现。按主线复习，比按章节背更省力：学会一个，其余几个只是换了矩阵。</span></p>
+  <div class="cgrid" id="chains"></div>
+</section>
+</div>
+
+<div id="view-q" hidden>
+  <div class="controls" style="margin-bottom:18px">
+    <label for="qq" class="hide">搜索题目</label>
+    <input id="qq" type="search" placeholder="Search: conditional / 条件分布 / Ex 5.1 / pizza">
+    <div id="qfilters" class="controls"></div>
+  </div>
+  <div class="layout">
+    <nav class="tree" id="qtree" aria-label="题库"></nav>
+    <aside class="detail" id="qdetail" aria-live="polite"></aside>
+  </div>
+</div>
+</div>
+
+<script>
+const TYPES={P:'证明',C:'概念',N:'计算',R:'代码'};
+const MODS=[
+{t:'数学基础',en:'Foundations',secs:[
+ {n:'0',t:'预备知识',en:'Preliminaries',pts:[
+  {id:'eig',t:'特征值与谱分解',en:'Spectral Decomposition',k:'PN',f:['A = PΛP^{⊤} = Σ λ_{i} e_{i} e_{i}^{⊤}（A 对称）','对称阵特征值为实数，不同特征值的特征向量正交（Thm 0.1）','A^{1/2} = PΛ^{1/2}P^{⊤}，A^{-1} = PΛ^{-1}P^{⊤}','|A| = ∏ λ_{i}，tr A = Σ λ_{i}'],q:'证明相似、正交变换下特征值不变；手算 2×2 特征分解；求 Σ^{-1/2}',ex:'Thm 0.1、Example 0.2',note:'谱分解与矩阵平方根',y:'Q1 · 5分',l:[['ray','瑞利商的极值就是最大、最小特征值'],['pcadef','主成分方向 = Σ 的特征向量'],['mvndens','等高线椭圆的轴沿特征向量，半轴 ∝ √λ'],['sph','球形检验 = 特征值几何平均 / 算术平均']]},
+  {id:'ray',t:'瑞利商与二次型极值',en:'Rayleigh Quotient',k:'PN',f:['max_{x≠0} x^{⊤}Ax / x^{⊤}x = λ_{1}，在 x = e_{1} 取到','加约束 x ⟂ e_{1},…,e_{k−1} 后最大值为 λ_{k}','推广：max x^{⊤}Ax / x^{⊤}Bx = B^{-1}A 的最大特征值'],q:'用它推导 PCA、典型相关、MANOVA 特征根',ex:'Example 0.2、Ex 0.4',note:'',l:[['pcadef','PCA = 单位向量约束下最大化 a^{⊤}Σa'],['cca','典型相关是广义瑞利商'],['wilks','HE^{-1} 的特征值来自同类问题']]},
+  {id:'proj',t:'正交投影矩阵',en:'Orthogonal Projection',k:'PN',f:['H = X(X^{⊤}X)^{-1}X^{⊤}：对称、幂等 H^{2} = H','特征值只有 0 和 1，rank H = tr H','I − H 也是投影，投到正交补'],q:'证明投影矩阵性质；回归残差',ex:'Ex 0.5',note:'投影矩阵',y:'Q4b',l:[['mlmls','残差 = (I − H)Y'],['eig','幂等 ⇒ 特征值为 0 或 1']]},
+  {id:'chol',t:'Cholesky 分解',en:'Cholesky Decomposition',k:'CR',f:['Σ = LL^{⊤}，L 为下三角','模拟：X = μ + LZ，Z ~ N_{p}(0, I)'],q:'R 中 chol() 生成多元正态样本',ex:'Section 0.1.6',note:'',l:[['mvnlin','X = μ + LZ 是线性变换']]},
+  {id:'moment',t:'矩与线性变换',en:'Moments',k:'N',f:['E(AX + b) = Aμ + b','Cov(AX + b) = AΣA^{⊤}','Cov(AX, BY) = A Cov(X, Y) B^{⊤}','Σ = D^{1/2} R D^{1/2}，D = diag(σ_{ii})'],q:'求线性组合的均值、方差、协方差',ex:'Ex 0.2',note:'协方差矩阵与相关矩阵',l:[['mvnlin','正态时再加上分布形式'],['summ','样本版本']]},
+  {id:'jmc',t:'联合、边际与条件分布',en:'Joint, Marginal, Conditional',k:'N',f:['边际：f_{1}(x_{1}) = ∫ f(x_{1}, x_{2}) dx_{2}','条件：f(x_{2} | x_{1}) = f(x_{1}, x_{2}) / f_{1}(x_{1})','独立 ⇔ f(x_{1}, x_{2}) = f_{1}(x_{1}) f_{2}(x_{2})'],q:'给一个联合密度，验证是密度、求边际和条件密度、判断独立',ex:'Section 0.2.2、Ex 0.1',note:'',l:[['cond','正态情形有显式公式'],['indep']]},
+  {id:'jac',t:'密度变换公式',en:'Density Transformation',k:'PN',f:['Y = h(X) 一一对应：f_{Y}(y) = f_{X}(h^{-1}(y)) |J|','J = det(∂x/∂y)'],q:'由标准正态推出多元正态密度；求变换后的联合密度',ex:'Ex 0.1',note:'',l:[['mvndens','由 Z → μ + Σ^{1/2}Z 推出密度']]},
+  {id:'cf',t:'特征函数',en:'Characteristic Function',k:'P',f:['φ_{X}(t) = E e^{i t^{⊤}X}','φ_{AX+b}(t) = e^{i t^{⊤}b} φ_{X}(A^{⊤}t)（Thm 0.3）','独立 ⇔ 联合特征函数 = 边际特征函数之积'],q:'用特征函数证明线性变换后仍为正态、证明独立',ex:'Thm 0.3、Ex 0.3',note:'',l:[['mvndef','多元正态用特征函数刻画']]},
+  {id:'matcalc',t:'矩阵求导与迹技巧',en:'Matrix Calculus',k:'PN',f:['tr(AB) = tr(BA)，x^{⊤}Ax = tr(A x x^{⊤})','∂ a^{⊤}x / ∂x = a，∂ x^{⊤}Ax / ∂x = 2Ax（A 对称）','∂ tr(β^{⊤}Mβ) / ∂β = 2Mβ，∂ tr(ΛCβ) / ∂β = C^{⊤}Λ^{⊤}'],q:'多元回归、约束估计的推导',ex:'2022 Q4',note:'约束优化与拉格朗日乘子法',y:'Q4a',l:[['mlmls','迹最小化求 B̂'],['cmle','拉格朗日条件求导'],['mle','似然里的 Σ(x_{i}−μ)^{⊤}Σ^{-1}(x_{i}−μ) 改写成迹']]}
+ ]},
+ {n:'1',t:'探索性数据分析',en:'Exploratory Data Analysis',pts:[
+  {id:'summ',t:'样本均值、S 与 R',en:'Basic Summaries',k:'NR',f:['x̄ = (1/n) Σ x_{i}','S = (1/(n−1)) Σ (x_{i} − x̄)(x_{i} − x̄)^{⊤}','r_{ik} = s_{ik} / √(s_{ii} s_{kk})，|r_{ik}| ≤ 1'],q:'手算 2–3 维的 S、R；R 中 colMeans、cov、cor',ex:'Section 1.2',note:'协方差矩阵与相关矩阵',l:[['mle','MLE 除以 n，S 除以 n − 1'],['pcascale','用 S 还是 R 做 PCA']]},
+  {id:'vis',t:'可视化',en:'Visualisation',k:'CR',f:['散点图、散点图矩阵 pairs() / ggpairs()','先看一元描述统计与相关矩阵'],q:'R 画图、读图',ex:'Section 1.3',note:'',l:[['mvntest','图形化检验正态性']]}
+ ]}
+]},
+{t:'多元正态与估计',en:'MVN & Estimation',secs:[
+ {n:'2',t:'多元正态分布',en:'Multivariate Normal',pts:[
+  {id:'mvndef',t:'定义',en:'Definition',k:'PC',f:['X ~ N_{p}(μ, Σ) ⇔ 对任意 a，a^{⊤}X 服从一元正态（Def 2.1）','特征函数 φ(t) = exp(i t^{⊤}μ − ½ t^{⊤}Σt)'],q:'判断题：每个分量正态 ≠ 联合正态',ex:'Def 2.1、Lemma 2.2、Thm 2.3',note:'多元正态密度',l:[['cf'],['indep','反例 Example 2.5']]},
+  {id:'mvndens',t:'密度与等高线椭圆',en:'Density & Contours',k:'PN',f:['f(x) = (2π)^{−p/2} |Σ|^{−1/2} exp{−½ (x−μ)^{⊤}Σ^{-1}(x−μ)}（Thm 2.4）','等高线 (x−μ)^{⊤}Σ^{-1}(x−μ) = c^{2} 是椭圆','轴沿 Σ 的特征向量 e_{i}，半轴长 c√λ_{i}'],q:'写出二元正态密度；求等高线椭圆的轴和长度',ex:'Thm 2.4',note:'多元正态密度',l:[['eig'],['chi2','指数里的二次型 ~ χ²_{p}'],['jac'],['cr','置信椭球是同样的几何']]},
+  {id:'mvnlin',t:'线性变换与边际分布',en:'Linear Transformations',k:'PN',f:['AX + b ~ N_{q}(Aμ + b, AΣA^{⊤})','任意子向量仍为正态，取 μ、Σ 的对应块'],q:'求 AX 的分布、两个线性组合的联合分布',ex:'Ex 2.1、Ex 2.3',note:'',l:[['moment'],['cond','条件分布证明的第一步']]},
+  {id:'indep',t:'独立与不相关',en:'Independence',k:'CP',f:['联合正态时：X_{1} 与 X_{2} 独立 ⇔ Σ_{12} = 0','边际正态且不相关 ⇏ 独立（Example 2.5）','a^{⊤}X 与 b^{⊤}X 独立 ⇔ a^{⊤}Σb = 0'],q:'找 a 使 a^{⊤}X 与 X_{2} 独立；判断题',ex:'Example 2.5、Ex 2.2',note:'',l:[['cond','Σ_{12} = 0 时条件分布 = 边际分布'],['lrtindep','检验独立性'],['ccatest','Σ_{12} = 0 ⇔ 典型相关全为 0']]},
+  {id:'cond',t:'条件分布',en:'Conditional Distribution',k:'PN',f:['X_{1} | X_{2} = x_{2} ~ N(μ_{1} + Σ_{12}Σ_{22}^{-1}(x_{2} − μ_{2}), Σ_{11} − Σ_{12}Σ_{22}^{-1}Σ_{21})','条件协方差 Σ_{11·2} 与 x_{2} 无关','证明：X_{1} − Σ_{12}Σ_{22}^{-1}X_{2} 与 X_{2} 不相关 ⇒ 独立'],q:'手算条件分布（综合题必考）；证明公式',ex:'Ex 2.2、Ex 2.4、Ex 2.5',note:'条件分布与偏相关系数',l:[['partial','Σ_{11·2} 标准化就是偏相关'],['multiple','条件方差 = σ_{11}(1 − R²)'],['mlmls','条件均值就是总体回归'],['indep']]},
+  {id:'chi2',t:'二次型的 χ² 分布',en:'Quadratic Forms',k:'PN',f:['(X − μ)^{⊤}Σ^{-1}(X − μ) ~ χ^{2}_{p}','P{(X−μ)^{⊤}Σ^{-1}(X−μ) ≤ χ^{2}_{p}(α)} = 1 − α'],q:'证明（Σ^{−1/2}(X − μ) ~ N(0, I)）；求概率椭圆',ex:'Section 2.2',note:'多元正态密度',l:[['t2known','Σ 已知时的均值检验'],['mvntest','χ² 图'],['err','都是马氏距离']]},
+  {id:'mvntest',t:'正态性检验',en:'Tests for Normality',k:'CR',f:['各分量的 Q-Q 图','d_{i}^{2} = (x_{i} − x̄)^{⊤}S^{-1}(x_{i} − x̄) 对 χ^{2}_{p} 分位数作图','Mardia 偏度、峰度检验'],q:'读 Q-Q 图、χ² 图判断正态性',ex:'Example 2.7',note:'',l:[['chi2']]}
+ ]},
+ {n:'3',t:'均值与协方差的估计',en:'MVN Estimation',pts:[
+  {id:'mle',t:'极大似然估计',en:'Maximum Likelihood',k:'PN',f:['μ̂ = x̄，Σ̂ = (1/n) Σ (x_{i} − x̄)(x_{i} − x̄)^{⊤} = ((n−1)/n) S','Anderson 引理（Thm 3.1）：|Σ|^{−n/2} exp(−½ tr Σ^{-1}A) 在 Σ = A/n 最大','最大似然值 ∝ |Σ̂|^{−n/2} e^{−np/2}','不变性：相关矩阵的 MLE 由 Σ̂ 算出；(x̄, S) 充分'],q:'推导 MLE（Thm 3.2）',ex:'Thm 3.1、Thm 3.2',note:'',l:[['lrtframe','LRT 的分子分母都用它'],['cmle','加约束时的版本'],['matcalc']]},
+  {id:'cmle',t:'约束下的 MLE',en:'Constrained MLE',k:'P',f:['拉格朗日：L = ℓ(θ) − λ g(θ)，求导后代回约束','Σ = σ^{2}I、μ^{⊤}μ = 1：μ̂ = x̄ / (x̄^{⊤}x̄)^{1/2}','⚠️ 说明 λ 取正号的理由（对应最大值）'],q:'2022 Q2c 原题',ex:'2022 Q2c',note:'约束优化与拉格朗日乘子法',y:'Q2c · 8分',l:[['mle'],['cb','同一方法用于约束最小二乘'],['pcadef','PCA 也是单位向量约束下的最大化'],['hard','SVM 也用拉格朗日乘子'],['port','组合优化也是约束二次规划']]},
+  {id:'xbar',t:'x̄ 与 S 的抽样分布',en:'Sampling Distributions',k:'PC',f:['x̄ ~ N_{p}(μ, Σ/n)（Thm 3.3）','(n − 1)S ~ W_{p}(Σ, n − 1)','x̄ 与 S 独立'],q:'构造所有检验统计量的出发点',ex:'Thm 3.3',note:'',l:[['t2'],['wish'],['pred']]},
+  {id:'wish',t:'Wishart 分布',en:'Wishart Distribution',k:'CP',f:['W_{p}(Σ, m) = Σ_{i=1}^{m} Z_{i}Z_{i}^{⊤}，Z_{i} ~ N_{p}(0, Σ)（Def 3.4）','可加：W(Σ, m_{1}) + W(Σ, m_{2}) = W(Σ, m_{1} + m_{2})','AUA^{⊤} ~ W_{q}(AΣA^{⊤}, m)','p = 1 时为 σ^{2}χ^{2}_{m}'],q:'概念题、判断题',ex:'Def 3.4',note:'',l:[['t2','T² = 正态 × Wishart^{-1} × 正态'],['wilks','Wilks Λ 是两个 Wishart 的行列式之比']]},
+  {id:'kron',t:'Kronecker 积',en:'Kronecker Product',k:'N',f:['A ⊗ B = (a_{ij} B)','(A ⊗ B)(C ⊗ D) = AC ⊗ BD'],q:'计算 A ⊗ B',ex:'Ex 3.1',note:'',l:[['mlmls','多元线性模型中 vec(E) 的协方差为 Σ ⊗ I']]}
+ ]}
+]},
+{t:'均值与协方差的推断',en:'Inference',secs:[
+ {n:'4',t:'均值的区间与检验',en:'Tests for the Mean',pts:[
+  {id:'t2',t:'单样本 Hotelling T²',en:'Hotelling’s T²',k:'PNR',f:['T^{2} = n(x̄ − μ_{0})^{⊤}S^{-1}(x̄ − μ_{0})','H_{0} 下 T^{2} ~ ((n−1)p/(n−p)) F_{p, n−p}（Thm 4.2）','p = 1 时 T^{2} = t^{2}；对非奇异线性变换不变'],q:'手算 2 维 T²、换算 F、写结论（六步：假设、公式、值、零分布、p 值、结论）',ex:'Ex 4.3、Ex 4.1',note:'p值与假设检验结论',l:[['xbar'],['t2lrt'],['cr'],['err','T² 是样本马氏距离']]},
+  {id:'t2lrt',t:'T² 与似然比',en:'T² as LRT',k:'P',f:['Λ^{2/n} = |Σ̂| / |Σ̂_{0}| = (1 + T^{2}/(n−1))^{-1}（Thm 4.3）','大样本：T^{2} 近似 χ^{2}_{p}'],q:'证明 T² 检验等价于似然比检验',ex:'Thm 4.3',note:'',l:[['lrtframe'],['wilks','Wilks Λ 的单样本情形']]},
+  {id:'t2known',t:'Σ 已知与大样本',en:'Known Σ',k:'N',f:['Σ 已知：n(x̄ − μ_{0})^{⊤}Σ^{-1}(x̄ − μ_{0}) ~ χ^{2}_{p}','Σ 未知但 n 大：T^{2} 近似 χ^{2}_{p}'],q:'2022 Q2a 的基础',ex:'Section 4.1.7',note:'',y:'Q2a',l:[['chi2'],['contrast']]},
+  {id:'cr',t:'置信区域与同时置信区间',en:'Confidence Regions',k:'NR',f:['置信椭球：n(x̄ − μ)^{⊤}S^{-1}(x̄ − μ) ≤ ((n−1)p/(n−p)) F_{p, n−p}(α)','T² 同时区间（Thm 4.5）：a^{⊤}x̄ ± √(((n−1)p/(n−p)) F_{p, n−p}(α)) · √(a^{⊤}Sa / n)','Bonferroni：x̄_{i} ± t_{n−1}(α/(2m)) √(s_{ii}/n)，m 小时更窄'],q:'求椭球的轴；比较 T² 区间与 Bonferroni 区间',ex:'Ex 4.2、Example 4.6、4.7',note:'',l:[['mvndens','同样的椭圆几何'],['t2']]},
+  {id:'contrast',t:'对比矩阵检验 Cμ = 0',en:'Contrasts',k:'NP',f:['H_{0}: Cμ = 0，C 为 q × p、行满秩','Σ 已知：n(Cx̄)^{⊤}(CΣC^{⊤})^{-1}(Cx̄) ~ χ^{2}_{q}','Σ 未知：n(Cx̄)^{⊤}(CSC^{⊤})^{-1}(Cx̄) ~ ((n−1)q/(n−q)) F_{q, n−q}','配对样本：对差值 d_{i} 做单样本 T²'],q:'检验各分量相等（2022 Q2a）、重复测量',ex:'Section 4.3.1',note:'对比矩阵检验',y:'Q2a · 6分',l:[['t2'],['cb','同为线性假设']]},
+  {id:'two',t:'两样本 T²',en:'Two-sample T²',k:'NR',f:['S_{pooled} = ((n_{1}−1)S_{1} + (n_{2}−1)S_{2}) / (n_{1} + n_{2} − 2)','T^{2} = (n_{1}n_{2}/(n_{1}+n_{2})) d^{⊤}S_{pooled}^{-1}d','~ ((n_{1}+n_{2}−2)p / (n_{1}+n_{2}−p−1)) F_{p, n_{1}+n_{2}−p−1}','Σ_{1} ≠ Σ_{2} 时用不合并版本'],q:'ass2 Q2a 类型；先做 Box’s M',ex:'Ex 4.4',note:'两样本T²检验',l:[['box','合并前先检验'],['manova','k = 2 的特例'],['lda','同一个 S_{pooled} 与均值差']]},
+  {id:'pred',t:'新观测的预测区域',en:'Prediction Region',k:'P',f:['X − x̄ ~ N_{p}(0, (1 + 1/n)Σ)，且与 S 独立','(n/(n+1)) (X − x̄)^{⊤}S^{-1}(X − x̄) ~ ((n−1)p/(n−p)) F_{p, n−p}'],q:'证明题',ex:'Ex 4.5',note:'',l:[['xbar'],['t2','同一个 F 分布']]}
+ ]},
+ {n:'8',t:'多元线性模型与 MANOVA',en:'MLM & MANOVA',pts:[
+  {id:'anova',t:'单变量 ANOVA',en:'ANOVA',k:'N',f:['SST = SSB + SSW','F = (SSB/(k−1)) / (SSW/(n−k))'],q:'多元版本的类比',ex:'Section 8.1',note:'方差分析ANOVA',l:[['manova','平方和换成 SSCP 矩阵']]},
+  {id:'mlmls',t:'多元线性模型的估计',en:'Multivariate Linear Model',k:'PN',f:['Y = XB + E，E 的每行 ~ N_{p}(0, Σ)','B̂ = (X^{⊤}X)^{-1}X^{⊤}Y（每列就是单独做 OLS）','残差 SSCP：Ê^{⊤}Ê = Y^{⊤}(I − H)Y，Σ̂ = Ê^{⊤}Ê/(n − k)'],q:'2022 Q4a、b 推导',ex:'Section 8.2',note:'多元线性模型',y:'Q4ab · 10分',l:[['proj'],['matcalc'],['cond','总体层面的回归 = 条件均值']]},
+  {id:'cb',t:'线性假设 CB = 0',en:'Linear Hypotheses',k:'P',f:['约束估计：B̂_{0} = B̂ − (X^{⊤}X)^{-1}C^{⊤}[C(X^{⊤}X)^{-1}C^{⊤}]^{-1}CB̂','假设 SSCP：H = (CB̂)^{⊤}[C(X^{⊤}X)^{-1}C^{⊤}]^{-1}(CB̂)','检验比较 H 与 E 的大小'],q:'2022 Q4c 拉格朗日推导',ex:'2022 Q4c',note:'约束优化与拉格朗日乘子法',y:'Q4c · 10分',l:[['cmle','同一套拉格朗日步骤'],['contrast'],['wilks','H、E 构成检验统计量']]},
+  {id:'wilks',t:'四个检验统计量',en:'Wilks, Pillai, H–L, Roy',k:'CNR',f:['都是 HE^{-1} 的特征值 θ_{i} 的函数（Lemma 8.1、8.2）','Wilks Λ = |E| / |E + H| = ∏ 1/(1 + θ_{i})，小则拒绝','Pillai = Σ θ_{i}/(1 + θ_{i})，Hotelling–Lawley = Σ θ_{i}，Roy = θ_{max}','R 中 anova(mlm) 默认 Pillai'],q:'读 MANOVA 输出；判断题（Λ 小时拒绝）',ex:'Lemma 8.1、8.2',note:'多元线性模型',l:[['ray','θ 是广义特征值'],['t2lrt'],['lrtframe'],['ccatest','典型相关检验用同样四个统计量']]},
+  {id:'manova',t:'单因素 MANOVA',en:'One-way MANOVA',k:'NR',f:['H_{0}: μ_{1} = … = μ_{k}','W = Σ_{g} Σ_{i} (x_{gi} − x̄_{g})(x_{gi} − x̄_{g})^{⊤}，B = Σ_{g} n_{g}(x̄_{g} − x̄)(x̄_{g} − x̄)^{⊤}','Λ = |W| / |B + W|；k = 2 时等价于两样本 T²'],q:'读输出；先检验协方差相等',ex:'Example 8.3',note:'多组比较的检验流程总览',l:[['two'],['box'],['anova']]}
+ ]},
+ {n:'9',t:'协方差矩阵的检验',en:'Tests of Covariance',pts:[
+  {id:'lrtframe',t:'似然比检验框架',en:'Likelihood Ratio Test',k:'P',f:['Λ = max_{H_{0}} L / max L','−2 log Λ 近似 χ^{2}，自由度 = 两种情形自由参数个数之差','正态下 LRT 往往化为行列式之比'],q:'推导题固定四步：两个 MLE → 代回 → 取比 → 数自由度',ex:'Section 9.1、9.3',note:'协方差矩阵的似然比检验',l:[['mle']]},
+  {id:'sigma0',t:'检验 Σ = Σ₀',en:'Test of Σ = Σ₀',k:'PN',f:['先变换 Y_{i} = Σ_{0}^{−1/2}X_{i}，化为检验 Σ = I','−2 log Λ = np log n − n log|V| + tr V − np，V = Σ (x_{i} − x̄)(x_{i} − x̄)^{⊤}','近似 χ^{2}_{p(p+1)/2}'],q:'推导',ex:'式 (9.1)',note:'协方差矩阵的似然比检验',l:[['lrtframe']]},
+  {id:'sph',t:'球形检验 Σ = σ²I',en:'Sphericity Test',k:'P',f:['Λ^{2/n} = |Σ̂| / (tr Σ̂ / p)^{p}','= (特征值的几何平均 / 算术平均)^{p}（Ex 9.1）','自由度 p(p+1)/2 − 1'],q:'证明用特征值表示',ex:'Ex 9.1',note:'协方差矩阵的似然比检验',l:[['eig']]},
+  {id:'lrtindep',t:'独立性检验',en:'Test of Independence',k:'PN',f:['H_{0}: Σ 为对角阵：Λ^{2/n} = |S| / ∏ s_{ii} = |R|（Ex 9.2）','−n log|R| 近似 χ^{2}_{p(p−1)/2}','分块独立：|S| / (|S_{11}| |S_{22}|)'],q:'2022 Q2b 原题',ex:'Ex 9.2',note:'协方差矩阵的似然比检验',y:'Q2b · 6分',l:[['ccatest','分块版 = 典型相关的 Wilks Λ'],['indep']]},
+  {id:'box',t:'多组协方差相等',en:'Box’s M',k:'NR',f:['H_{0}: Σ_{1} = … = Σ_{k}','ρ[N log|S_{pooled}| − Σ N_{i} log|S_{i}|] ~ χ^{2}_{(k−1)p(p+1)/2}（式 9.2）','决定能否合并：两样本 T²、MANOVA、LDA'],q:'ass2 Q2b；读 boxM 输出',ex:'式 (9.2)',note:'协方差矩阵相等检验',l:[['two'],['manova'],['lda'],['qda']]}
+ ]}
+]},
+{t:'相关结构',en:'Dependence',secs:[
+ {n:'5',t:'相关',en:'Correlations',pts:[
+  {id:'partial',t:'偏相关系数',en:'Partial Correlation',k:'N',f:['由 Σ_{11·2} = Σ_{11} − Σ_{12}Σ_{22}^{-1}Σ_{21} 标准化','ρ_{12·3} = (ρ_{12} − ρ_{13}ρ_{23}) / √((1 − ρ_{13}^{2})(1 − ρ_{23}^{2}))','⚠️ 不是 Σ 里的某个元素'],q:'手算（2022 Q3b、期中）',ex:'Example 5.1、Ex 5.1、Ex 5.2',note:'条件分布与偏相关系数',y:'Q3b · 8分',l:[['cond'],['corrtest','检验时自由度减去条件变量个数']]},
+  {id:'multiple',t:'复相关系数',en:'Multiple Correlation',k:'PN',f:['R^{2} = σ_{0}^{⊤}Σ_{XX}^{-1}σ_{0} / σ_{YY}','Lemma 5.2：R = Y 与最佳线性预测 β^{⊤}X 的相关，且是所有线性组合里最大的','最佳预测的均方误差 = σ_{YY}(1 − R^{2})'],q:'手算（2022 Q3a）；证明 Lemma 5.2',ex:'Example 5.3、5.4',note:'条件分布与偏相关系数',y:'Q3a · 7分',l:[['cond'],['cca','一组只有 1 个变量时，典型相关 = 复相关'],['mlmls']]},
+  {id:'corrtest',t:'相关系数的检验',en:'Testing Correlations',k:'NR',f:['ρ = 0：T = r √((n − 2)/(1 − r^{2})) ~ t_{n−2}','ρ = ρ_{0}：Z = ½ log((1 + r)/(1 − r)) 近似 N(½ log((1 + ρ_{0})/(1 − ρ_{0})), 1/(n − 3))','偏相关（条件变量 k 个）：n − 2 → n − k − 2，n − 3 → n − k − 3','复相关：(R̂^{2}/(1 − R̂^{2})) · (n − p)/(p − 1) ~ F_{p−1, n−p}（p 含 Y）'],q:'计算检验统计量；R 中 cor.test',ex:'Example 5.5、5.6',note:'条件分布与偏相关系数',l:[['partial'],['multiple']]}
+ ]},
+ {n:'7',t:'典型相关分析',en:'Canonical Correlation',pts:[
+  {id:'cca',t:'典型相关的定义与求解',en:'Canonical Correlation',k:'PN',f:['max corr(a^{⊤}X^{(1)}, b^{⊤}X^{(2)})','ρ_{i}^{2} = Σ_{11}^{−1/2}Σ_{12}Σ_{22}^{-1}Σ_{21}Σ_{11}^{−1/2} 的特征值','典型变量方差为 1，不同对之间不相关'],q:'特殊结构的手算（Ex 7.3、7.4）',ex:'Ex 7.1–7.4',note:'典型相关',l:[['ray','广义特征值问题'],['multiple'],['eig']]},
+  {id:'ccatest',t:'独立性检验与显著个数',en:'Testing Canonical Correlations',k:'NR',f:['H_{0}: Σ_{12} = 0 ⇔ 全部典型相关为 0','统计量是 S_{22}^{−1/2}S_{21}S_{11}^{-1}S_{12}S_{22}^{−1/2} 特征值的函数','Wilks Λ = ∏ (1 − ρ̂_{i}^{2}) = |S| / (|S_{11}| |S_{22}|)；也有 Pillai、Roy 等，用 F 近似'],q:'读 CCP 输出判断几对显著',ex:'Section 7.2、7.4',note:'典型相关',l:[['lrtindep','同一个行列式之比'],['wilks']]},
+  {id:'ccar',t:'R 实现与解释',en:'CCA in R',k:'R',f:['cancor() 计算；CCA 包可视化；CCP 包检验','解释用标准化系数'],q:'Tutorial W5',ex:'Example 7.1、7.2',note:'典型相关',l:[['ccatest']]}
+ ]}
+]},
+{t:'降维与潜变量',en:'Dimension Reduction',secs:[
+ {n:'6',t:'主成分分析',en:'Principal Components',pts:[
+  {id:'pcadef',t:'定义与推导',en:'Definition',k:'PN',f:['Y_{i} = e_{i}^{⊤}X，e_{i} 是 Σ 第 i 大特征值 λ_{i} 的单位特征向量','Var(Y_{i}) = λ_{i}，Cov(Y_{i}, Y_{j}) = 0','推导：max a^{⊤}Σa s.t. a^{⊤}a = 1，且与前面的主成分不相关'],q:'求第一主成分（综合题）；证明最大方差性质',ex:'Ex 6.1',note:'主成分分析PCA',l:[['ray'],['eig'],['cmle']]},
+  {id:'pcaprop',t:'方差解释与载荷',en:'Variance Explained',k:'N',f:['总方差 tr Σ = Σ λ_{i}','第 k 个解释比例 λ_{k} / Σ λ_{i}','corr(Y_{i}, X_{k}) = e_{ik}√λ_{i} / √σ_{kk}'],q:'计算解释比例；由 sdev 求特征值（2022 Q5a-3）',ex:'Section 6.2',note:'主成分分析PCA',y:'Q5a-3 · 2分',l:[['eig']]},
+  {id:'pcascale',t:'用协方差还是相关矩阵',en:'Covariance vs Correlation',k:'C',f:['PCA 不具尺度不变性，两种结果一般不同','量纲不同或方差差异大 → 用相关矩阵（prcomp(scale = TRUE)）','相关矩阵时 Σ λ_{i} = p'],q:'2022 Q5a-1、a-2',ex:'Example 6.1',note:'主成分分析PCA',y:'Q5a-1,2 · 9分',l:[['summ']]},
+  {id:'pcanum',t:'保留几个主成分',en:'How Many PCs',k:'CR',f:['碎石图（scree plot）找拐点','Kaiser：保留 λ > 1（相关矩阵）','累计解释比例达到 80%–90%'],q:'读输出决定个数（2022 Q5a-4）',ex:'Section 6.4',note:'主成分分析PCA',y:'Q5a-4 · 3分',l:[['fanum','对比因子个数的选法']]},
+  {id:'pcar',t:'R 输出与双标图',en:'PCA in R',k:'R',f:['prcomp：sdev^{2} = 特征值，rotation = 特征向量','biplot 同时看观测与变量'],q:'读 summary(prcomp)',ex:'Example 6.2',note:'主成分分析PCA',l:[['pcaprop']]},
+  {id:'port',t:'组合优化',en:'Portfolio Optimisation',k:'C',f:['收益 c^{⊤}μ，风险 c^{⊤}Σc，Σ c_{i} = 1','给定收益下最小化风险：拉格朗日乘子'],q:'了解思路即可',ex:'Section 6.8',note:'',l:[['cmle']]}
+ ]},
+ {n:'10',t:'因子分析',en:'Factor Analysis',pts:[
+  {id:'famodel',t:'正交因子模型',en:'Orthogonal Factor Model',k:'CN',f:['X − μ = LF + ε，F ~ (0, I)，ε ~ (0, Ψ)，Ψ 对角','Σ = LL^{⊤} + Ψ，Cov(X, F) = L','共同度 h_{i}^{2} = Σ_{j} ℓ_{ij}^{2}，σ_{ii} = h_{i}^{2} + ψ_{i}'],q:'由 L、Ψ 算 Σ、共同度、解释比例',ex:'Section 10',note:'因子分析',l:[['pcavsfa'],['sem','因子分析是 SEM 的测量部分']]},
+  {id:'fanum',t:'ML 估计与因子数检验',en:'Number of Factors',k:'NR',f:['H_{0}: m 个因子足够，统计量近似 χ^{2}','自由度 ½[(p − m)^{2} − p − m]','p 值小 → 因子不够；取不被拒绝的最小 m'],q:'读 factanal 输出（2022 Q5b-1）',ex:'Section 10.2',note:'因子分析例题',y:'Q5b-1 · 4分',l:[['lrtframe'],['pcanum'],['semeval','同样是拟合 Σ(θ) 的卡方检验']]},
+  {id:'rot',t:'旋转与不唯一性',en:'Varimax Rotation',k:'C',f:['L → LT（T 正交）不改变 Σ = LL^{⊤} + Ψ','Varimax：使每列载荷平方的方差最大，便于解释'],q:'概念题',ex:'Section 10.3',note:'因子分析',l:[['famodel']]},
+  {id:'fapc',t:'主成分解与主因子解',en:'PC & Principal Factor Solutions',k:'N',f:['主成分解：L̃ = [√λ_{1} e_{1}, …, √λ_{m} e_{m}]，Ψ̃ = diag(S − L̃L̃^{⊤})','主因子解：对 S − Ψ 做特征分解并迭代'],q:'由特征值、特征向量写出载荷',ex:'Section 10.4、Example 10.1',note:'因子分析',l:[['pcadef'],['eig']]},
+  {id:'pcavsfa',t:'PCA 与因子分析的区别',en:'PCA vs FA',k:'C',f:['PCA：数据变换，没有模型，解释总方差','FA：统计模型，有特殊方差 Ψ，解释协方差结构','FA 载荷可旋转；增加因子数，所有载荷都变'],q:'2022 Q5b-2',ex:'Section 6.7、10.4',note:'因子分析',y:'Q5b-2 · 6分',l:[['pcadef'],['famodel'],['efa']]}
+ ]},
+ {n:'11',t:'结构方程模型',en:'Structural Equation Modelling',pts:[
+  {id:'sem',t:'一般形式',en:'General Form',k:'C',f:['结构模型：η = Bη + Γξ + ζ','测量模型：Y = Λ_{Y}η + ε，X = Λ_{X}ξ + δ','特例：计量经济模型、测量误差模型、因子分析'],q:'概念题；画路径图',ex:'Section 11.1、11.4',note:'',l:[['famodel']]},
+  {id:'semeval',t:'估计与模型评价',en:'Estimation & Evaluation',k:'CR',f:['使 Σ(θ) 接近 S（ML 拟合函数 F_{ML}）','H_{0}: Σ = Σ(θ)：T = (n − 1) F_{ML}(θ̂) 近似 χ^{2}','自由度 = (p + q)(p + q + 1)/2 − dim(θ)'],q:'读 lavaan 输出；数自由度',ex:'Section 11.2、11.3、Example 11.1',note:'',l:[['lrtframe'],['fanum']]},
+  {id:'efa',t:'探索性与验证性因子分析',en:'EFA vs CFA',k:'C',f:['EFA：因子个数不预先确定，误差不相关','CFA：模型预先设定，部分载荷固定为 0 或 1，误差可以相关'],q:'概念题',ex:'Section 11.5',note:'',l:[['famodel'],['pcavsfa']]}
+ ]}
+]},
+{t:'分类与聚类',en:'Classification & Clustering',secs:[
+ {n:'12',t:'判别与分类',en:'Discrimination & Classification',pts:[
+  {id:'ecm',t:'最优分类规则',en:'ECM / TPM / Bayes',k:'PN',f:['ECM = c(2|1)P(2|1)p_{1} + c(1|2)P(1|2)p_{2}','最优：f_{1}(x)/f_{2}(x) ≥ (c(1|2)/c(2|1)) · (p_{2}/p_{1}) 判 π_{1}（Thm 12.2）','TPM：代价相等；贝叶斯：判后验概率最大的类'],q:'证明 Thm 12.2；给定代价和先验写规则',ex:'Lemma 12.1、Thm 12.2',note:'ECM最优分类规则',l:[['lda'],['qda']]},
+  {id:'lda',t:'线性判别（Σ 相等）',en:'LDA',k:'PNR',f:['(μ_{1} − μ_{2})^{⊤}Σ^{-1}x − ½(μ_{1} − μ_{2})^{⊤}Σ^{-1}(μ_{1} + μ_{2}) ≥ log k 判 π_{1}','样本版（Fisher 线性判别函数）：μ_{i} → x̄_{i}，Σ → S_{pooled}','边界是超平面'],q:'手算判别边界（ass2 Q2d）',ex:'Thm 12.3、Example 12.4',note:'线性判别分析',l:[['ecm'],['two','同一个 S_{pooled}^{-1}(x̄_{1} − x̄_{2})'],['err'],['box']]},
+  {id:'qda',t:'二次判别（Σ 不等）',en:'QDA',k:'NC',f:['−½x^{⊤}(Σ_{1}^{-1} − Σ_{2}^{-1})x + (μ_{1}^{⊤}Σ_{1}^{-1} − μ_{2}^{⊤}Σ_{2}^{-1})x − c ≥ log k','边界是二次曲线','每组单独估计 Σ_{i}，参数多，小样本易过拟合'],q:'2022 Q5c-2：比较 LDA 与 QDA 的交叉验证误判率',ex:'Section 12.5.2',note:'QDA聚类与SVM',y:'Q5c-2 · 5分',l:[['box'],['cv'],['mbc','与高斯混合聚类用同一密度']]},
+  {id:'err',t:'最优错误率与马氏距离',en:'Error Rate & Mahalanobis',k:'NP',f:['Δ^{2} = (μ_{1} − μ_{2})^{⊤}Σ^{-1}(μ_{1} − μ_{2})','等先验、等代价时最优错误率 = Φ(−Δ/2)','重代入错误率（APER）偏乐观'],q:'计算最优错误率',ex:'Section 12.5.3',note:'最优错误率与马氏距离',l:[['chi2'],['t2'],['cv']]},
+  {id:'cv',t:'交叉验证估计误判率',en:'Leave-one-out CV',k:'CR',f:['留一法：每次去掉一个观测训练，再预测它','lda(..., CV = TRUE) 直接给出留一结果','误判率 = 混淆矩阵非对角元之和 / n'],q:'2022 Q5c-1：选哪个数作为误判率的最佳估计',ex:'Section 12.2',note:'留一交叉验证',y:'Q5c-1 · 5分',l:[['err'],['svmtune']]},
+  {id:'multi',t:'多总体判别',en:'More than Two Populations',k:'N',f:['等 Σ、等先验：d_{i}(x) = μ_{i}^{⊤}Σ^{-1}x − ½ μ_{i}^{⊤}Σ^{-1}μ_{i}，取最大','两两相等得到边界直线'],q:'手算三组的分类区域',ex:'Ex 12.1',note:'多总体判别',l:[['lda']]}
+ ]},
+ {n:'13',t:'支持向量机',en:'Support Vector Machines',pts:[
+  {id:'risk',t:'期望风险与经验风险',en:'Expected vs Empirical Risk',k:'C',f:['期望风险依赖未知分布，无法直接计算','只最小化训练集上的经验风险会过拟合','SVM 通过间隔控制模型复杂度'],q:'概念题',ex:'Section 13.2',note:'',l:[['cv']]},
+  {id:'hard',t:'线性 SVM（可分）',en:'Hard Margin',k:'CP',f:['超平面 w^{⊤}x + b = 0，间隔 2/‖w‖','min ½‖w‖^{2} s.t. y_{i}(w^{⊤}x_{i} + b) ≥ 1','解只依赖支持向量（拉格朗日对偶）'],q:'写出优化问题；解释支持向量',ex:'Section 13.4.1',note:'',l:[['cmle','拉格朗日乘子']]},
+  {id:'soft',t:'软间隔',en:'Soft Margin',k:'CR',f:['加松弛变量 ξ_{i} ≥ 0：min ½‖w‖^{2} + C Σ ξ_{i}','cost C 大 → 更少容忍误分类 → 易过拟合'],q:'解释 cost 参数',ex:'Section 13.4.2',note:'',l:[['hard']]},
+  {id:'kernel',t:'核技巧',en:'Kernel Trick',k:'CR',f:['用 K(x, x′) 代替内积，得到非线性边界','RBF：K = exp(−γ‖x − x′‖^{2})，γ 大 → 边界更弯、易过拟合'],q:'解释 gamma 参数',ex:'Section 13.5',note:'',l:[['qda','另一种得到非线性边界的方式']]},
+  {id:'svmtune',t:'多类、调参与 ROC',en:'Tuning & ROC',k:'R',f:['多类：一对一（one-vs-one）或一对其余（one-vs-rest）','tune() 用交叉验证选 cost、gamma','ROC 曲线评估二分类'],q:'Tutorial W10 代码',ex:'Section 13.6、13.7、Example 13.1',note:'',l:[['cv']]},
+  {id:'svmvs',t:'SVM 相对判别分析的优势',en:'SVM vs Discriminant Analysis',k:'C',f:['不需要正态等分布假设','只由支持向量决定，对远离边界的点稳健','核技巧可得非线性边界；p 相对 n 大时仍可用'],q:'2022 Q5c-3',ex:'Section 13.9',note:'QDA聚类与SVM',y:'Q5c-3',l:[['lda'],['qda']]}
+ ]},
+ {n:'14',t:'聚类分析',en:'Cluster Analysis',pts:[
+  {id:'clvs',t:'分类与聚类的区别',en:'Classification vs Clustering',k:'C',f:['分类：有监督，标签已知，给新观测分配类别','聚类：无监督，没有标签，按相似度发现分组'],q:'2022 Q5c-3',ex:'Section 14',note:'QDA聚类与SVM',y:'Q5c-3 · 6分',l:[['lda'],['kmeans']]},
+  {id:'kmeans',t:'K-means 与 K-medoids',en:'K-means',k:'CNR',f:['最小化簇内平方和：分配 → 更新中心，迭代','需要预设 K；对初值和离群点敏感','K-medoids 以实际观测为中心，更稳健'],q:'手算一两步迭代；kmeans()',ex:'Section 14.1.2、14.1.3',note:'',l:[['hc']]},
+  {id:'hc',t:'层次聚类',en:'Hierarchical Clustering',k:'CR',f:['凝聚法：每次合并最近的两簇','连接方式：single、complete、average、Ward','树状图（dendrogram）切割得到簇'],q:'由距离矩阵手算合并顺序；hclust()',ex:'Section 14.1.4、Example 14.1',note:'',l:[['kmeans']]},
+  {id:'assess',t:'聚类评估',en:'Assessing Clusters',k:'CR',f:['轮廓宽度（silhouette）衡量簇内紧密、簇间分离'],q:'读轮廓图',ex:'Section 14.1.6',note:'',l:[['kmeans']]},
+  {id:'mbc',t:'基于模型的聚类',en:'Model-based Clustering',k:'C',f:['混合正态：f(x) = Σ π_{g} N_{p}(μ_{g}, Σ_{g})','EM 算法估计；BIC 选簇数和协方差结构'],q:'概念题；读 mclust 输出',ex:'Section 14.2、Example 14.2',note:'',l:[['qda','同一密度，但标签未知'],['mle']]}
+ ]}
+]},
+{t:'依赖建模',en:'Copulae',secs:[
+ {n:'15',t:'Copula',en:'Copulae',pts:[
+  {id:'sklar',t:'Sklar 定理',en:'Sklar’s Theorem',k:'PC',f:['F(x_{1}, x_{2}) = C(F_{1}(x_{1}), F_{2}(x_{2}))','边际连续时 C 唯一','copula = 边际为均匀分布的联合分布'],q:'概念题；用定理把联合分布拆成边际 + 依赖',ex:'Thm 15.1',note:'',l:[['ellc'],['archc']]},
+  {id:'ellc',t:'椭圆 copula',en:'Elliptical Copulae',k:'C',f:['高斯 copula：C(u, v) = Φ_{ρ}(Φ^{-1}(u), Φ^{-1}(v))','t copula'],q:'概念题',ex:'Section 15.2.1',note:'',l:[['mvndef','由多元正态得到']]},
+  {id:'archc',t:'阿基米德 copula',en:'Archimedean Copulae',k:'PN',f:['C(u, v) = φ^{-1}(φ(u) + φ(v))，φ 为生成元','Gumbel–Hougaard：exp{−[Σ (−log u_{j})^{θ}]^{1/θ}}，θ = 1 时独立','Clayton（Ex 15.1）'],q:'证明某 copula 是阿基米德型：找出生成元',ex:'Example 15.2、Ex 15.1',note:'',l:[['sklar']]},
+  {id:'copest',t:'估计与模拟',en:'Estimation & Simulation',k:'R',f:['先估边际（经验或参数），再估 copula 参数','copula 包拟合与模拟'],q:'读代码',ex:'Example 15.3、15.4',note:'',l:[['sklar']]}
+ ]}
+]}
+];
+
+const CHAINS=[
+ {t:'特征值问题',d:'最大化“二次型 / 二次型”都归结为特征值。会了瑞利商，PCA、典型相关、MANOVA 的推导就是换矩阵。',ids:['eig','ray','pcadef','cca','wilks','fapc']},
+ {t:'条件分布',d:'条件协方差 Σ₁₁·₂ 是偏相关、复相关、回归的共同来源，2022 Q3 整题都在这条线上。换成样本就要做检验：自由度减去条件变量个数。',ids:['mvnlin','cond','partial','multiple','corrtest','cca','mlmls']},
+ {t:'似然比检验',d:'先求两种情形的 MLE，代回得行列式之比，−2 log Λ 对 χ²，自由度数参数。一套方法串起 6 个检验。',ids:['mle','lrtframe','t2lrt','sigma0','sph','lrtindep','box','ccatest','fanum','semeval']},
+ {t:'马氏距离',d:'(x − μ)ᵀΣ⁻¹(x − μ) 依次出现在密度、χ² 分布、T²、置信椭球、判别和错误率里。',ids:['mvndens','chi2','t2','cr','lda','err','mvntest']},
+ {t:'合并协方差',d:'S_pooled 一旦出现，就要先问 Σ 相等吗。不相等时换不合并 T² 或 QDA。',ids:['box','two','manova','lda','qda']},
+ {t:'约束优化',d:'拉格朗日乘子在 2022 卷出现两次（18 分），PCA、SVM、组合优化也是同一套写法。',ids:['matcalc','cmle','cb','pcadef','port','hard']},
+ {t:'降维与潜变量',d:'PCA 是变换，因子分析是模型，SEM 把因子分析当测量部分。2022 卷就考了这个对比。',ids:['pcadef','pcanum','famodel','fanum','pcavsfa','efa','sem']},
+ {t:'分类与聚类',d:'从最优规则推出 LDA、QDA，用交叉验证评估；SVM 去掉分布假设；聚类连标签也没有。',ids:['ecm','lda','qda','cv','svmvs','clvs','mbc']}
+];
+
+const SRC={f22:'2022 期末',mock:'期中模拟卷（Claude 自编）',ex:'讲义练习',eg:'讲义例题',a1:'作业 1',a2:'作业 2',tut:'Tutorial',drill:'期中 Q2 精讲（Claude 自编）'};
+const QS=[
+ /* 2022 期末 */
+ {id:'f22-1',s:'f22',t:'2022 Q1（5分）',d:'A 任意、Q 正交，证明 A 与 Q^{⊤}AQ 的特征值相同',k:'P',ans:'无官方答案；对话中讲过',p:[['','det(Q^{⊤}AQ − λI) = det(A − λI)，特征多项式相同',['eig']]]},
+ {id:'f22-2',s:'f22',t:'2022 Q2（20分）',d:'X_{1},…,X_{n} i.i.d. N_{p}(μ, Σ) 的三个推断问题',k:'PN',ans:'无官方答案；对话中讲过',p:[['a','Σ 已知，检验 μ_{1} = … = μ_{p}：统计量、分布、拒绝域（6分）',['contrast','t2known','xbar']],['b','Σ 未知，检验各变量不相关的似然比检验（6分）',['lrtindep','lrtframe','mle']],['c','Σ = σ^{2}I 已知、μ^{⊤}μ = 1，证 μ̂ = x̄/(x̄^{⊤}x̄)^{1/2}（8分）',['cmle','mle']]]},
+ {id:'f22-3',s:'f22',t:'2022 Q3（15分）',d:'X ~ N_{4}，Σ_{11} = Σ_{22} 为等相关块，Σ_{12} 的元素全为 ρ_{2}',k:'N',ans:'无官方答案；对话中讲过',p:[['a','X_{1} 与 X_{(2)} 的复相关系数（7分）',['multiple']],['b','偏相关 ρ_{12·34}（8分）',['partial','cond']]]},
+ {id:'f22-4',s:'f22',t:'2022 Q4（20分）',d:'多元回归 Y = Xβ + E 的三个推导',k:'P',ans:'无官方答案；对话中讲过',p:[['a','最小化 tr(Y − Xβ)^{⊤}(Y − Xβ) 得 β̂ = (X^{⊤}X)^{-1}X^{⊤}Y（5分）',['mlmls','matcalc']],['b','证明 (Y − Xβ̂)^{⊤}(Y − Xβ̂) = Y^{⊤}(I − H)Y（5分）',['mlmls','proj']],['c','约束 Cβ = 0 下的估计 β̂_{0}，用拉格朗日乘子（10分）',['cb','cmle','matcalc']]]},
+ {id:'f22-5',s:'f22',t:'2022 Q5（40分）',d:'applicant 数据（48 人、15 项评分）的 R 输出解读',k:'CR',ans:'无官方答案；对话中讲过',p:[['a','PCA：协方差还是相关矩阵、两者为何不同、最大特征值、保留几个（14分）',['pcascale','pcaprop','pcanum','pcar']],['b','因子分析：选因子数；PCA 与因子分析的区别（10分）',['fanum','pcavsfa']],['c','LDA/QDA 混淆矩阵：误判率最佳估计、QDA 是否更好；分类与聚类；SVM 的优势（16分）',['cv','err','qda','lda','clvs','svmvs']]]},
+ /* 期中模拟卷 */
+ {id:'mock-1',s:'mock',t:'模拟卷 Q1 判断题（40分）',d:'16 道 TRUE / FALSE，覆盖 S0–S7',k:'C',ans:'无答案，卷末有提示',p:[['a','正交矩阵的行列式为 1',['eig']],['b','tr Σ = 特征值之和，|Σ| = 特征值之积',['eig']],['c','多元正态下 Σ 对角 ⇒ 各分量相互独立',['indep']],['d','两个分量各自正态 ⇒ 联合正态',['mvndef','indep']],['e','Σ 的 MLE 无偏',['mle']],['f','nΣ̂ ~ W_{p}(Σ, n)',['wish','xbar']],['g','p = 1 时 T^{2} = t^{2}',['t2']],['h','T² 同时区间比逐个 t 区间窄',['cr']],['i','ρ_{12} = 0 时 ρ_{12·3} 可以非零',['partial']],['j','复相关 ≥ 每个 |ρ_{YX_{j}}|',['multiple']],['k','使用 Fisher Z 变换的理由',['corrtest']],['l','相关矩阵 PCA 的特征值之和为 p',['pcascale']],['m','第一主成分是最小特征值的特征向量',['pcadef']],['n','某变量乘 100 不改变协方差矩阵 PCA',['pcascale']],['o','变量换单位不改变典型相关',['cca']],['p','非零典型相关最多 min(r, q) 个',['cca']]]},
+ {id:'mock-2',s:'mock',t:'模拟卷 Q2 综合题（30分）',d:'Y ~ N_{3}(0, Σ)，Σ = [[2,1,0],[1,2,1],[0,1,2]]',k:'N',ans:'无答案，卷末有提示',p:[['a','第一主成分、方差、解释比例',['pcadef','pcaprop','eig']],['b','U = Y_{1} − Y_{3}、V = Y_{1} + Y_{2} + Y_{3} 的联合分布，是否独立',['mvnlin','indep']],['c','Y_{2} | Y_{1}, Y_{3} 的条件分布',['cond']],['d','ρ_{13·2} 与 ρ_{13} 比较',['partial']],['e','Y_{1} 与 (Y_{2}, Y_{3}) 的典型相关 = 复相关，并计算',['multiple','cca']]]},
+ {id:'mock-3',s:'mock',t:'模拟卷 Q3 基本工具（30分）',d:'矩阵、二次型、T² 检验与独立性证明',k:'PN',ans:'无答案，卷末有提示',p:[['a','证 E(XX^{⊤}) = Σ + μμ^{⊤}，Σ 半正定',['moment']],['b','A = [[5,2],[2,2]]：特征分解、|A|、A^{-1}、瑞利商最大值',['eig','ray']],['c','(X − μ)^{⊤}A^{-1}(X − μ) 的分布；95% 等高线的轴',['chi2','mvndens']],['d','n = 21，检验 μ = (1, 2)^{⊤}',['t2']],['e','证 X_{(2)} − Σ_{21}Σ_{11}^{-1}X_{(1)} 与 X_{(1)} 独立',['indep','cond','mvnlin']]]},
+ /* 讲义练习 */
+ {id:'ex-0.1',s:'ex',t:'Ex 0.1',d:'联合密度 θx_{1}e^{−x_{1}(θ + x_{2})}：验证是密度，求边际、条件密度，判断独立',k:'N',ans:'讲义第 13–14 页；答案第 114 页',p:[['','',['jmc']]]},
+ {id:'ex-0.2',s:'ex',t:'Ex 0.2',d:'Var(X) = σ^{2}[[1,ρ],[ρ,1]]：求 Cov(X_{1} − X_{2}, X_{1} + X_{2})、Cov(X_{1}, X_{2} − ρX_{1})，及使 Var(X_{2} − bX_{1}) 最小的 b',k:'N',ans:'讲义第 14 页；答案第 115 页',p:[['','',['moment']]]},
+ {id:'ex-0.3',s:'ex',t:'Ex 0.3',d:'用特征函数证明子向量的特征函数、独立的充要条件',k:'P',ans:'讲义第 14 页；答案第 115 页',p:[['','',['cf','indep']]]},
+ {id:'ex-0.4',s:'ex',t:'Ex 0.4',d:'约束 y ⟂ e_{1} 下瑞利商最大值为 λ_{2}，并推广',k:'P',ans:'讲义第 14 页；答案第 116 页',p:[['','',['ray','eig']]]},
+ {id:'ex-0.5',s:'ex',t:'Ex 0.5',d:'正交投影矩阵的秩 = 迹',k:'P',ans:'讲义第 14 页；答案第 116 页',p:[['','',['proj','eig']]]},
+ {id:'ex-2.1',s:'ex',t:'Ex 2.1',d:'X_{1}, X_{2} i.i.d. N(0,1)：证 X_{1} − X_{2} 与 X_{1} + X_{2} 独立；求 P(X_{1}^{2} + X_{2}^{2} < 2.41)',k:'N',ans:'讲义第 25 页；答案第 117 页',p:[['','',['mvnlin','indep','chi2']]]},
+ {id:'ex-2.2',s:'ex',t:'Ex 2.2',d:'μ = (3, −1, 2)^{⊤}，3×3 的 Σ',k:'N',ans:'讲义第 25–26 页；答案第 117 页；精讲 2-1',p:[['a','AX 的分布及两分量的相关系数',['mvnlin','moment']],['b','(X_{1}, X_{3}) | X_{2} = 0',['cond']]]},
+ {id:'ex-2.3',s:'ex',t:'Ex 2.3',d:'用特征函数证明独立正态向量的线性组合仍为正态，推出 X̄ ~ N_{p}(μ, Σ/n)',k:'P',ans:'讲义第 26 页；答案第 118 页',p:[['','',['cf','mvnlin','xbar']]]},
+ {id:'ex-2.4',s:'ex',t:'Ex 2.4',d:'X_{1} 正态，X_{2} | X_{1} 正态（均值线性、方差不依赖 x_{1}）：证联合正态并写出 μ、Σ',k:'P',ans:'讲义第 26 页；答案第 118 页',p:[['','',['cond','mvndef','moment']]]},
+ {id:'ex-2.5',s:'ex',t:'Ex 2.5',d:'Z ~ N(0,1)，Y | Z ~ N(1 + z, 1)，X | (Y, Z) ~ N(1 − y, 1)：联合分布、Y | (X, Z)、E(Y | U = 2)',k:'N',ans:'讲义第 26 页；答案第 118 页',p:[['','',['cond','mvnlin']]]},
+ {id:'ex-3.1',s:'ex',t:'Ex 3.1',d:'求 Kronecker 积 A ⊗ B',k:'N',ans:'讲义第 33 页；无答案',p:[['','',['kron']]]},
+ {id:'ex-4.1',s:'ex',t:'Ex 4.1',d:'检验 μ_{2} − μ_{1} = … = μ_{p} − μ_{p−1} = 1：写出 C，给拒绝域',k:'P',ans:'讲义第 41–42 页；答案第 121 页；精讲 2-6',p:[['','',['contrast','t2']]]},
+ {id:'ex-4.2',s:'ex',t:'Ex 4.2',d:'Σ 已知、n = 50，检验 μ = 0',k:'N',ans:'讲义第 42 页；答案第 121 页；精讲 2-7',p:[['','',['t2known','chi2']]]},
+ {id:'ex-4.3',s:'ex',t:'Ex 4.3',d:'4 个二维观测，检验 μ = (7, 11)^{⊤}',k:'N',ans:'讲义第 42 页；答案第 121 页；精讲 2-4',p:[['','',['t2','summ']]]},
+ {id:'ex-4.4',s:'ex',t:'Ex 4.4',d:'两样本、公共 Σ 已知：X̄ − Ȳ 的分布，检验 μ_{1} = μ_{2}',k:'P',ans:'讲义第 42 页；答案第 121 页',p:[['','',['two','t2known','xbar']]]},
+ {id:'ex-4.5',s:'ex',t:'Ex 4.5',d:'新观测 X：X − X̄ 的分布、预测区域',k:'P',ans:'讲义第 42 页；答案第 122 页',p:[['','',['pred','xbar','wish']]]},
+ {id:'ex-5.1',s:'ex',t:'Ex 5.1',d:'X ~ N_{4}，μ = (1,2,3,4)^{⊤}，给定 Σ',k:'N',ans:'讲义第 49 页；答案第 123 页；精讲 2-2、2-3',p:[['a','(X_{1}, X_{2}, X_{3}, X_{1} + X_{2} + X_{4}) 的分布',['mvnlin']],['b','X_{1} | x_{2}, x_{3}, x_{4}',['cond']],['c','ρ_{12·3}、ρ_{12·4}',['partial']],['d','复相关，并与 ρ_{12} 比较',['multiple']],['e','说明某线性组合与 (X_{2}, X_{3}, X_{4}) 独立',['indep','cond']]]},
+ {id:'ex-5.2',s:'ex',t:'Ex 5.2',d:'X ~ N_{3}，μ = (2, −3, 1)^{⊤}',k:'N',ans:'讲义第 49 页；答案第 125 页',p:[['a','3X_{1} − 2X_{2} + X_{3} 的分布',['mvnlin']],['b','求 a 使 X_{2} 与 X_{2} − a^{⊤}(X_{1}, X_{3})^{⊤} 独立',['indep','cond']]]},
+ {id:'ex-6.1',s:'ex',t:'Ex 6.1',d:'Σ = [[1, ρ/2, 0],[ρ/2, 1, ρ],[0, ρ, 1]] 的综合题',k:'N',ans:'讲义第 54 页；答案第 126 页；精讲 2-9',p:[['a','第一主成分系数、方差、解释比例',['pcadef','pcaprop','eig']],['b','(Y_{1}, Y_{2}, Y_{1} + Y_{2} + Y_{3}) 的联合分布',['mvnlin']],['c','(Y_{1}, Y_{2}) | Y_{3}',['cond']],['d','Y_{3} 对 (Y_{1}, Y_{2}) 的复相关',['multiple']]]},
+ {id:'ex-7.1',s:'ex',t:'Ex 7.1',d:'5 项测试的相关矩阵（n = 140），前 2 个与后 3 个变量的典型相关，写 R 代码',k:'R',ans:'讲义第 58 页；答案第 128 页',p:[['','',['cca','ccar']]]},
+ {id:'ex-7.2',s:'ex',t:'Ex 7.2',d:'88 名学生 5 门考试：闭卷 2 门对开卷 3 门的典型相关',k:'R',ans:'讲义第 59 页；答案第 129 页',p:[['','',['cca','ccar']]]},
+ {id:'ex-7.3',s:'ex',t:'Ex 7.3',d:'等相关结构的 4 维 Σ：两个典型相关与第一对典型变量',k:'N',ans:'讲义第 59 页；答案第 129 页；精讲 2-10',p:[['','',['cca','eig']]]},
+ {id:'ex-7.4',s:'ex',t:'Ex 7.4',d:'验证第一对典型变量就是第 2、3 个分量，典型相关为 0.95',k:'N',ans:'讲义第 59 页；答案第 130 页；精讲 2-11',p:[['','',['cca']]]},
+ {id:'ex-9.1',s:'ex',t:'Ex 9.1',d:'球形检验统计量用特征值的算术平均、几何平均表示',k:'P',ans:'讲义第 67 页；答案第 131 页',p:[['','',['sph','eig','lrtframe']]]},
+ {id:'ex-9.2',s:'ex',t:'Ex 9.2',d:'H_{0}: Σ 为对角阵的似然比检验，−n log|R| > χ^{2}_{p(p−1)/2} 时拒绝',k:'P',ans:'讲义第 67 页；答案第 131 页',p:[['','',['lrtindep','lrtframe','mle']]]},
+ {id:'ex-12.1',s:'ex',t:'Ex 12.1',d:'三个二元正态总体，公共 Σ，等先验等代价',k:'N',ans:'讲义第 86 页；答案第 133 页',p:[['a','写出分类规则',['multi','ecm']],['b','对三个点分类',['multi']],['c','证明区域由直线分隔并画图',['multi','lda']]]},
+ {id:'ex-15.1',s:'ex',t:'Ex 15.1',d:'证明 Clayton copula 是阿基米德 copula，生成元 φ(x) = θ^{-1}(x^{−θ} − 1)',k:'P',ans:'讲义第 113 页；答案第 135 页',p:[['','',['archc']]]},
+ /* 讲义例题 */
+ {id:'eg-0.2',s:'eg',t:'Example 0.2',d:'瑞利商的最大值为 λ_{1}、最小值为 λ_{p}',k:'P',ans:'讲义第 8 页正文',p:[['','',['ray','eig']]]},
+ {id:'eg-2.5',s:'eg',t:'Example 2.5',d:'边际正态、不相关但不独立的反例',k:'P',ans:'讲义第 21 页正文',p:[['','',['indep','mvndef']]]},
+ {id:'eg-2.6',s:'eg',t:'Example 2.6',d:'二元正态的条件分布',k:'N',ans:'讲义第 23 页正文',p:[['','',['cond']]]},
+ {id:'eg-2.7',s:'eg',t:'Example 2.7',d:'微波炉数据的多元正态性检验',k:'R',ans:'讲义第 25 页；Tutorial W2',p:[['','',['mvntest']]]},
+ {id:'eg-4.4',s:'eg',t:'Example 4.4、4.6、4.7',d:'微波炉数据：T² 置信椭球、同时置信区间、Bonferroni 区间',k:'R',ans:'讲义第 38–39 页；Tutorial W4',p:[['','',['cr','t2']]]},
+ {id:'eg-5.1',s:'eg',t:'Example 5.1',d:'智力、体重、年龄：ρ̂_{12} = 0.62，但 ρ̂_{12·3} = 0.03',k:'N',ans:'讲义第 45 页正文；精讲 2-2',p:[['','',['partial']]]},
+ {id:'eg-5.3',s:'eg',t:'Example 5.3',d:'最佳线性预测 3 + X_{1} − 2X_{2}、复相关 √0.3、预测均方误差 7',k:'N',ans:'讲义第 47 页正文；精讲 2-3',p:[['','',['multiple','cond']]]},
+ {id:'eg-5.4',s:'eg',t:'Example 5.4',d:'复相关与回归 R² 的几种等价算法',k:'R',ans:'讲义第 47 页；Tutorial W4',p:[['','',['multiple','mlmls']]]},
+ {id:'eg-5.5',s:'eg',t:'Example 5.5、5.6',d:'普通相关、偏相关的检验（t 检验、Fisher Z）',k:'NR',ans:'讲义第 48 页；Tutorial W4',p:[['','',['corrtest']]]},
+ {id:'eg-6.1',s:'eg',t:'Example 6.1',d:'用协方差矩阵与相关矩阵做 PCA，结果差别很大',k:'C',ans:'讲义第 51 页正文',p:[['','',['pcascale']]]},
+ {id:'eg-6.2',s:'eg',t:'Example 6.2',d:'美国各州犯罪率 PCA',k:'R',ans:'讲义第 53 页；Tutorial W5；精讲 2-13',p:[['','',['pcar','pcanum','pcascale']]]},
+ {id:'eg-7.1',s:'eg',t:'Example 7.1',d:'Fitness 俱乐部数据的典型相关',k:'R',ans:'讲义第 58 页；Tutorial W5；精讲 2-14',p:[['','',['cca','ccatest','ccar']]]},
+ {id:'eg-7.2',s:'eg',t:'Example 7.2',d:'鸡骨数据：只给相关矩阵时做典型相关',k:'R',ans:'讲义第 58 页',p:[['','',['cca','ccar']]]},
+ {id:'eg-8.3',s:'eg',t:'Example 8.3',d:'Fitness 数据的多元线性模型：系数、Σ̂、Wilks 检验，与典型相关检验等价',k:'R',ans:'讲义第 64 页；Tutorial W8',p:[['','',['mlmls','wilks','ccatest']]]},
+ {id:'eg-10.1',s:'eg',t:'Example 10.1',d:'洛杉矶 12 个普查区 5 个变量：ML 加 varimax；3 个因子时自由度为负',k:'R',ans:'讲义第 73 页；Tutorial W9',p:[['','',['famodel','fanum','rot']]]},
+ {id:'eg-11.1',s:'eg',t:'Example 11.1',d:'Wheaton 等人的 Anomie 例子',k:'R',ans:'讲义第 78 页；Tutorial W9',p:[['','',['sem','semeval']]]},
+ {id:'eg-12.4',s:'eg',t:'Example 12.4',d:'鸢尾花数据的 LDA、QDA 与交叉验证',k:'R',ans:'讲义第 85 页；Tutorial W10',p:[['','',['lda','qda','cv']]]},
+ {id:'eg-13.1',s:'eg',t:'Example 13.1',d:'鸢尾花 SVM 分类与 ROC 曲线',k:'R',ans:'讲义第 94 页；Tutorial W10',p:[['','',['svmtune','kernel','soft']]]},
+ {id:'eg-14.1',s:'eg',t:'Example 14.1',d:'鸢尾花数据的层次、非层次聚类及评估',k:'R',ans:'讲义第 100 页正文',p:[['','',['hc','kmeans','assess']]]},
+ {id:'eg-14.2',s:'eg',t:'Example 14.2',d:'基于模型的聚类与模型选择',k:'R',ans:'讲义第 104 页正文',p:[['','',['mbc']]]},
+ {id:'eg-15.2',s:'eg',t:'Example 15.2',d:'证明 Gumbel–Hougaard copula 是阿基米德 copula，生成元 (−log t)^{θ}',k:'P',ans:'讲义第 111 页正文',p:[['','',['archc']]]},
+ {id:'eg-15.3',s:'eg',t:'Example 15.3、15.4',d:'微波炉数据、股票组合的 copula 建模',k:'R',ans:'讲义第 112 页正文',p:[['','',['copest','sklar']]]},
+ /* 作业 */
+ {id:'a1-1',s:'a1',t:'作业 1 Q1（14分）',d:'NBA 2020-21：年龄、上场时间、场均得分',k:'NR',ans:'你的作业',p:[['a','ggpairs 判断能否假设多元正态',['vis','mvntest']],['b','开方变换后是否更接近正态',['mvntest']],['c','样本均值、S、R；年长球员得分是否更多',['summ']],['d','Y_{3} | Y_{1}, Y_{2} 的分布',['cond']],['e','Y_{1}、Y_{2} 解释 Y_{3} 方差的比例',['multiple','cond']],['f','与 lm() 输出比较',['multiple','mlmls']],['g','预测 39 岁、35 分钟球员的得分',['cond']],['h','条件关系与边际关系为何不同',['partial','cond']]]},
+ {id:'a1-2',s:'a1',t:'作业 1 Q2（9分）',d:'空间降尺度：X ~ N_{4}，已知两个粗尺度平均',k:'N',ans:'你的作业',p:[['a','写出 Y = CX 的 C',['mvnlin']],['b','Y 的分布；是否有密度（Σ 奇异）',['mvnlin','mvndens']],['c','X | (Y_{5}, Y_{6}) 的分布',['cond']],['d','估计 X_{1}–X_{4} 并给 95% 边际区间',['cond']]]},
+ {id:'a2-1',s:'a2',t:'作业 2 Q1（11分）',d:'NBA 2021-22 的 PCA',k:'R',ans:'你的作业',p:[['a','S 的特征值、特征向量与 prcomp 输出的关系',['pcar','eig']],['b','k = 6 的低维近似是否优于 k = 1',['pcadef']],['c','为什么应该先标准化',['pcascale']],['d','90% 准则与 Kaiser 准则各保留几个',['pcanum']],['e','哪个主成分最能分开中锋',['pcar']],['f','由载荷读出中锋擅长和不擅长的统计项',['pcar','pcaprop']]]},
+ {id:'a2-2',s:'a2',t:'作业 2 Q2（11分）',d:'两型 Cushing 病（n_{a} = 6，n_{b} = 10，p = 2）',k:'NR',ans:'你的作业',p:[['a','检验 μ_{a} = μ_{b}',['two']],['b','检验 Σ_{a} = Σ_{b}',['box']],['c','(a) 的假设是否成立',['box','two']],['d','推导线性判别边界并画图',['lda','mvndens']],['e','对新病人分类',['lda']]]},
+ /* Tutorial */
+ {id:'tut-w1',s:'tut',t:'W1 矩阵（含 Challenge）',d:'R 矩阵操作',k:'R',ans:'03_代码题清单',p:[['T1','用中心化矩阵计算 S',['summ','proj']],['T2','用矩阵公式做回归、SSE、MSE',['mlmls','proj']],['T3','写矩阵幂函数：平方根、逆、逆的平方根',['eig']]]},
+ {id:'tut-w2',s:'tut',t:'W2 多元正态（含 Challenge）',d:'生成、密度、正态性诊断',k:'R',ans:'tutorial/w2/R Markdown- MVN.solution.md',p:[['1','生成多元正态样本、画密度',['chol','mvndens']],['2','Mardia 诊断',['mvntest']],['C','葡萄酒数据：找出偏离正态的变量并做变换',['mvntest']],['P','作图（base R 与 ggplot2）',['vis']]]},
+ {id:'tut-w4t',s:'tut',t:'W4 Hotelling T²（微波炉）',d:'置信椭球、投影区间、Bonferroni',k:'R',ans:'Tutorial 正文',p:[['','画置信椭球（特征分解给轴）',['cr','eig']],['','Thm 4.5 同时区间与 Bonferroni 区间比较',['cr','t2']]]},
+ {id:'tut-w4c',s:'tut',t:'W4 相关（含 Challenge）',d:'偏相关、复相关、相关检验',k:'NR',ans:'Tutorial 正文；Challenge 见 03_代码题清单',p:[['1','智力、体重、年龄的偏相关',['partial']],['2','复相关 = 回归的 √R²',['multiple','mlmls']],['3','t 检验与 Fisher Z 检验相关、偏相关',['corrtest']],['C','葡萄酒数据：相关与偏相关的计算和检验',['corrtest','partial']]]},
+ {id:'tut-w5p',s:'tut',t:'W5 PCA（美国犯罪率 + pizza Challenge）',d:'拟合、选个数、解释',k:'R',ans:'Tutorial 正文；Challenge 见 03_代码题清单',p:[['1','拟合与选择主成分个数',['pcar','pcanum']],['2','解释载荷与双标图',['pcar','pcaprop']],['C','pizza A：PCA 与个数选择，哪些变量共变',['pcanum','pcar','pcascale']]]},
+ {id:'tut-w5c',s:'tut',t:'W5 典型相关（Fitness + pizza Challenge）',d:'估计、检验',k:'R',ans:'Tutorial 正文；Challenge 见 03_代码题清单',p:[['1','估计与可视化',['cca','ccar']],['2','渐近检验与置换检验',['ccatest']],['C','pizza A 两组变量的典型相关及显著个数',['cca','ccatest']]]},
+ {id:'tut-w8',s:'tut',t:'W8 多元线性模型（Fitness）',d:'估计、检验、诊断',k:'R',ans:'Tutorial 正文',p:[['1','估计系数与 Σ̂',['mlmls']],['2','假设检验（Pillai 等）',['wilks','cb']],['3','残差诊断',['mlmls']]]},
+ {id:'tut-w8c',s:'tut',t:'W8 Challenge（pizza）',d:'多元线性模型、MANOVA、等协方差',k:'R',ans:'03_代码题清单',p:[['T1','联合预测热量、灰分、钠，拟合并诊断',['mlmls']],['T2','碳水含量是否有预测力',['cb','wilks']],['T3','控制其他变量后脂肪是否有预测力',['cb','wilks']],['T4','MANOVA：不同品牌是否不同',['manova']],['C2','MANOVA 的等协方差前提是否成立（Box’s M）',['box','manova']]]},
+ {id:'tut-w9',s:'tut',t:'W9 因子分析（社会经济 + pizza Challenge）',d:'因子数、旋转、解释',k:'R',ans:'Tutorial 正文；Challenge 见 03_代码题清单',p:[['1','factanal 拟合与因子数检验',['fanum','famodel']],['2','平行分析（parallel analysis）选个数',['pcanum','fanum']],['3','旋转与解释载荷',['rot']],['C','pizza A：合适的因子数及含义',['fanum','rot']]]},
+ {id:'tut-w9s',s:'tut',t:'W9 结构方程（Anomie）',d:'lavaan 估计与解释',k:'R',ans:'Tutorial 正文；03_代码题清单',p:[['1','估计',['sem','semeval']],['2','解释路径系数',['sem']]]},
+ {id:'tut-w10d',s:'tut',t:'W10 判别分析（鸢尾花 + pizza Challenge）',d:'LDA、QDA、交叉验证',k:'R',ans:'Tutorial 正文；Challenge 见 03_代码题清单',p:[['1','LDA 与 QDA 拟合、边界',['lda','qda']],['2','混淆矩阵与交叉验证',['cv','err']],['T1','样本内比较 LDA 与 QDA',['err','qda']],['T2','改用交叉验证比较',['cv']],['T3','用选定的分类器给新 pizza 分类',['lda','qda']]]},
+ {id:'tut-w10s',s:'tut',t:'W10 SVM（鸢尾花 + pizza Challenge）',d:'核、调参、ROC',k:'R',ans:'Tutorial 正文；Challenge 见 03_代码题清单',p:[['1','两类 SVM：线性与 RBF 核、参数影响',['hard','soft','kernel']],['2','多类 SVM 与预测',['svmtune']],['3','ROC 曲线比较',['svmtune']],['C','pizza：选择并调参 SVM，交叉验证准确率，分类新样本',['svmtune','kernel','soft']]]},
+ /* 精讲自编 */
+ {id:'dr-2.5',s:'drill',t:'精讲 2-5',d:'同时置信区间与 Bonferroni 区间（自编，可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['cr']]]},
+ {id:'dr-2.8',s:'drill',t:'精讲 2-8',d:'两样本 T² 检验（自编，可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['two']]]},
+ {id:'dr-2.12',s:'drill',t:'精讲 2-12',d:'相关系数的检验（自编，可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['corrtest']]]},
+ {id:'dr-2.13',s:'drill',t:'精讲 2-13',d:'读 PCA 软件输出（美国犯罪率）',k:'R',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['pcar','pcanum']]]},
+ {id:'dr-2.14',s:'drill',t:'精讲 2-14',d:'读 CCA 软件输出（Fitness）',k:'R',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['ccar','ccatest']]]}
+];
+
+/* ---------- English text ---------- */
+const SRC_EN={f22:'2022 final',mock:'Mock midterm (Claude-made)',ex:'Lecture exercises',eg:'Lecture examples',a1:'Assignment 1',a2:'Assignment 2',tut:'Tutorials',drill:'Midterm drill (Claude-made)'};
+const TYPES_EN={P:'Proof',C:'Concept',N:'Calculation',R:'Code'};
+const TAB={P:'Pf',C:'Cpt',N:'Calc',R:'R'};
+const EN={
+ eig:{f:['A = PΛP^{⊤} = Σ λ_{i} e_{i} e_{i}^{⊤} (A symmetric)','Eigenvalues of a symmetric matrix are real; eigenvectors for distinct eigenvalues are orthogonal (Thm 0.1)','A^{1/2} = PΛ^{1/2}P^{⊤}, A^{-1} = PΛ^{-1}P^{⊤}','|A| = ∏ λ_{i}, tr A = Σ λ_{i}'],q:'Show eigenvalues are unchanged under similarity / orthogonal transformations; spectral decomposition of a 2×2 matrix by hand; find Σ^{−1/2}',l:{ray:'The extreme values of the Rayleigh quotient are the largest and smallest eigenvalues',pcadef:'PC directions = eigenvectors of Σ',mvndens:'Contour ellipse axes lie along eigenvectors, half-lengths ∝ √λ',sph:'Sphericity test = geometric mean / arithmetic mean of the eigenvalues'}},
+ ray:{f:['max_{x≠0} x^{⊤}Ax / x^{⊤}x = λ_{1}, attained at x = e_{1}','Under x ⟂ e_{1},…,e_{k−1} the maximum is λ_{k}','Generalisation: max x^{⊤}Ax / x^{⊤}Bx = largest eigenvalue of B^{-1}A'],q:'Used to derive PCA, canonical correlation and the MANOVA roots',l:{pcadef:'PCA maximises a^{⊤}Σa under a unit-length constraint',cca:'Canonical correlation is a generalised Rayleigh quotient',wilks:'Eigenvalues of HE^{-1} come from the same kind of problem'}},
+ proj:{f:['H = X(X^{⊤}X)^{-1}X^{⊤}: symmetric and idempotent, H^{2} = H','Eigenvalues are only 0 and 1; rank H = tr H','I − H is also a projection, onto the orthogonal complement'],q:'Prove properties of projection matrices; regression residuals',l:{mlmls:'Residuals = (I − H)Y',eig:'Idempotent ⇒ eigenvalues are 0 or 1'}},
+ chol:{f:['Σ = LL^{⊤}, L lower triangular','Simulation: X = μ + LZ, Z ~ N_{p}(0, I)'],q:'Generate multivariate normal samples with chol() in R',l:{mvnlin:'X = μ + LZ is a linear transformation'}},
+ moment:{f:['E(AX + b) = Aμ + b','Cov(AX + b) = AΣA^{⊤}','Cov(AX, BY) = A Cov(X, Y) B^{⊤}','Σ = D^{1/2} R D^{1/2}, D = diag(σ_{ii})'],q:'Means, variances and covariances of linear combinations',l:{mvnlin:'Under normality the distribution form is added',summ:'Sample version'}},
+ jmc:{f:['Marginal: f_{1}(x_{1}) = ∫ f(x_{1}, x_{2}) dx_{2}','Conditional: f(x_{2} | x_{1}) = f(x_{1}, x_{2}) / f_{1}(x_{1})','Independence ⇔ f(x_{1}, x_{2}) = f_{1}(x_{1}) f_{2}(x_{2})'],q:'Given a joint density: check it is a density, find marginal and conditional densities, decide independence',l:{cond:'Explicit formulas in the normal case'}},
+ jac:{f:['Y = h(X) one-to-one: f_{Y}(y) = f_{X}(h^{-1}(y)) |J|','J = det(∂x/∂y)'],q:'Derive the MVN density from the standard normal; joint density after a transformation',l:{mvndens:'Density obtained from Z → μ + Σ^{1/2}Z'}},
+ cf:{f:['φ_{X}(t) = E e^{i t^{⊤}X}','φ_{AX+b}(t) = e^{i t^{⊤}b} φ_{X}(A^{⊤}t) (Thm 0.3)','Independence ⇔ joint cf = product of marginal cfs'],q:'Use cfs to show linear transformations stay normal, and to prove independence',l:{mvndef:'The MVN is characterised by its cf'}},
+ matcalc:{f:['tr(AB) = tr(BA), x^{⊤}Ax = tr(A x x^{⊤})','∂ a^{⊤}x / ∂x = a, ∂ x^{⊤}Ax / ∂x = 2Ax (A symmetric)','∂ tr(β^{⊤}Mβ) / ∂β = 2Mβ, ∂ tr(ΛCβ) / ∂β = C^{⊤}Λ^{⊤}'],q:'Derivations for multivariate regression and constrained estimators',l:{mlmls:'Minimise the trace to get B̂',cmle:'Differentiate the Lagrangian',mle:'Rewrite Σ(x_{i}−μ)^{⊤}Σ^{-1}(x_{i}−μ) in the likelihood as a trace'}},
+ summ:{f:['x̄ = (1/n) Σ x_{i}','S = (1/(n−1)) Σ (x_{i} − x̄)(x_{i} − x̄)^{⊤}','r_{ik} = s_{ik} / √(s_{ii} s_{kk}), |r_{ik}| ≤ 1'],q:'Compute S and R by hand in 2–3 dimensions; colMeans, cov, cor in R',l:{mle:'The MLE divides by n, S divides by n − 1',pcascale:'Whether to run PCA on S or R'}},
+ vis:{f:['Scatterplots, scatterplot matrix pairs() / ggpairs()','Look at univariate summaries and the correlation matrix first'],q:'Plot and read plots in R',l:{mvntest:'Graphical checks of normality'}},
+ mvndef:{f:['X ~ N_{p}(μ, Σ) ⇔ a^{⊤}X is univariate normal for every a (Def 2.1)','cf: φ(t) = exp(i t^{⊤}μ − ½ t^{⊤}Σt)'],q:'True/false: normal components ≠ jointly normal',l:{indep:'Counterexample in Example 2.5'}},
+ mvndens:{f:['f(x) = (2π)^{−p/2} |Σ|^{−1/2} exp{−½ (x−μ)^{⊤}Σ^{-1}(x−μ)} (Thm 2.4)','Contours (x−μ)^{⊤}Σ^{-1}(x−μ) = c^{2} are ellipsoids','Axes along the eigenvectors e_{i} of Σ, half-lengths c√λ_{i}'],q:'Write down the bivariate normal density; find the axes and half-lengths of a contour ellipse',l:{chi2:'The quadratic form in the exponent ~ χ²_{p}',cr:'Confidence ellipsoids have the same geometry'}},
+ mvnlin:{f:['AX + b ~ N_{q}(Aμ + b, AΣA^{⊤})','Every subvector is normal; take the matching blocks of μ and Σ'],q:'Distribution of AX; joint distribution of two linear combinations',l:{cond:'First step of the conditional-distribution proof'}},
+ indep:{f:['For jointly normal vectors: X_{1} and X_{2} independent ⇔ Σ_{12} = 0','Marginally normal and uncorrelated ⇏ independent (Example 2.5)','a^{⊤}X and b^{⊤}X independent ⇔ a^{⊤}Σb = 0'],q:'Find a so that a^{⊤}X is independent of X_{2}; true/false questions',l:{cond:'If Σ_{12} = 0 the conditional distribution equals the marginal',lrtindep:'Testing independence',ccatest:'Σ_{12} = 0 ⇔ all canonical correlations are 0'}},
+ cond:{f:['X_{1} | X_{2} = x_{2} ~ N(μ_{1} + Σ_{12}Σ_{22}^{-1}(x_{2} − μ_{2}), Σ_{11} − Σ_{12}Σ_{22}^{-1}Σ_{21})','The conditional covariance Σ_{11·2} does not depend on x_{2}','Proof: X_{1} − Σ_{12}Σ_{22}^{-1}X_{2} is uncorrelated with X_{2} ⇒ independent'],q:'Conditional distribution by hand (in every “one Σ” question); prove the formula',l:{partial:'Standardising Σ_{11·2} gives partial correlations',multiple:'Conditional variance = σ_{11}(1 − R²)',mlmls:'The conditional mean is the population regression'}},
+ chi2:{f:['(X − μ)^{⊤}Σ^{-1}(X − μ) ~ χ^{2}_{p}','P{(X−μ)^{⊤}Σ^{-1}(X−μ) ≤ χ^{2}_{p}(α)} = 1 − α'],q:'Prove it (Σ^{−1/2}(X − μ) ~ N(0, I)); probability ellipsoids',l:{t2known:'Mean test with known Σ',mvntest:'Chi-square plot',err:'Both are Mahalanobis distances'}},
+ mvntest:{f:['Normal Q-Q plot of each component','Plot d_{i}^{2} = (x_{i} − x̄)^{⊤}S^{-1}(x_{i} − x̄) against χ^{2}_{p} quantiles','Mardia’s skewness and kurtosis tests'],q:'Judge normality from Q-Q and chi-square plots'},
+ mle:{f:['μ̂ = x̄, Σ̂ = (1/n) Σ (x_{i} − x̄)(x_{i} − x̄)^{⊤} = ((n−1)/n) S','Anderson’s lemma (Thm 3.1): |Σ|^{−n/2} exp(−½ tr Σ^{-1}A) is maximised at Σ = A/n','Maximised likelihood ∝ |Σ̂|^{−n/2} e^{−np/2}','Invariance: the MLE of the correlation matrix comes from Σ̂; (x̄, S) is sufficient'],q:'Derive the MLEs (Thm 3.2)',l:{lrtframe:'Numerator and denominator of every LRT',cmle:'Version with a constraint'}},
+ cmle:{f:['Lagrangian: L = ℓ(θ) − λ g(θ); differentiate, then substitute into the constraint','Σ = σ^{2}I, μ^{⊤}μ = 1: μ̂ = x̄ / (x̄^{⊤}x̄)^{1/2}','⚠️ Justify taking the positive root (it gives the maximum)'],q:'Exactly 2022 Q2(c)',l:{cb:'Same method for constrained least squares',pcadef:'PCA is also a maximisation under a unit-length constraint',hard:'SVMs also use Lagrange multipliers',port:'Portfolio optimisation is a constrained quadratic programme'}},
+ xbar:{f:['x̄ ~ N_{p}(μ, Σ/n) (Thm 3.3)','(n − 1)S ~ W_{p}(Σ, n − 1)','x̄ and S are independent'],q:'Starting point for every test statistic'},
+ wish:{f:['W_{p}(Σ, m) = Σ_{i=1}^{m} Z_{i}Z_{i}^{⊤}, Z_{i} ~ N_{p}(0, Σ) (Def 3.4)','Additivity: W(Σ, m_{1}) + W(Σ, m_{2}) = W(Σ, m_{1} + m_{2})','AUA^{⊤} ~ W_{q}(AΣA^{⊤}, m)','For p = 1 it is σ^{2}χ^{2}_{m}'],q:'Concept and true/false questions',l:{t2:'T² = normal × Wishart^{-1} × normal',wilks:'Wilks’ Λ is a ratio of determinants of Wishart matrices'}},
+ kron:{f:['A ⊗ B = (a_{ij} B)','(A ⊗ B)(C ⊗ D) = AC ⊗ BD'],q:'Compute A ⊗ B',l:{mlmls:'In the multivariate linear model Cov(vec E) = Σ ⊗ I'}},
+ t2:{f:['T^{2} = n(x̄ − μ_{0})^{⊤}S^{-1}(x̄ − μ_{0})','Under H_{0}: T^{2} ~ ((n−1)p/(n−p)) F_{p, n−p} (Thm 4.2)','For p = 1, T^{2} = t^{2}; invariant under non-singular linear transformations'],q:'Compute a 2-D T² by hand, convert to F, conclude (six steps: hypotheses, formula, value, null distribution, p-value, conclusion)',l:{err:'T² is a sample Mahalanobis distance'}},
+ t2lrt:{f:['Λ^{2/n} = |Σ̂| / |Σ̂_{0}| = (1 + T^{2}/(n−1))^{-1} (Thm 4.3)','Large samples: T^{2} ≈ χ^{2}_{p}'],q:'Show the T² test is equivalent to the likelihood ratio test',l:{wilks:'One-sample case of Wilks’ Λ'}},
+ t2known:{f:['Σ known: n(x̄ − μ_{0})^{⊤}Σ^{-1}(x̄ − μ_{0}) ~ χ^{2}_{p}','Σ unknown but n large: T^{2} ≈ χ^{2}_{p}'],q:'Basis of 2022 Q2(a)'},
+ cr:{f:['Confidence ellipsoid: n(x̄ − μ)^{⊤}S^{-1}(x̄ − μ) ≤ ((n−1)p/(n−p)) F_{p, n−p}(α)','T² simultaneous intervals (Thm 4.5): a^{⊤}x̄ ± √(((n−1)p/(n−p)) F_{p, n−p}(α)) · √(a^{⊤}Sa / n)','Bonferroni: x̄_{i} ± t_{n−1}(α/(2m)) √(s_{ii}/n), narrower when m is small'],q:'Axes of the ellipsoid; compare T² and Bonferroni intervals',l:{mvndens:'Same ellipse geometry'}},
+ contrast:{f:['H_{0}: Cμ = 0, C is q × p with full row rank','Σ known: n(Cx̄)^{⊤}(CΣC^{⊤})^{-1}(Cx̄) ~ χ^{2}_{q}','Σ unknown: n(Cx̄)^{⊤}(CSC^{⊤})^{-1}(Cx̄) ~ ((n−1)q/(n−q)) F_{q, n−q}','Paired samples: one-sample T² on the differences d_{i}'],q:'Test that all components are equal (2022 Q2a); repeated measures',l:{cb:'Both are linear hypotheses'}},
+ two:{f:['S_{pooled} = ((n_{1}−1)S_{1} + (n_{2}−1)S_{2}) / (n_{1} + n_{2} − 2)','T^{2} = (n_{1}n_{2}/(n_{1}+n_{2})) d^{⊤}S_{pooled}^{-1}d','~ ((n_{1}+n_{2}−2)p / (n_{1}+n_{2}−p−1)) F_{p, n_{1}+n_{2}−p−1}','If Σ_{1} ≠ Σ_{2}, use the unpooled version'],q:'Assignment 2 Q2(a) type; run Box’s M first',l:{box:'Test before pooling',manova:'Special case k = 2',lda:'Same S_{pooled} and mean difference'}},
+ pred:{f:['X − x̄ ~ N_{p}(0, (1 + 1/n)Σ), independent of S','(n/(n+1)) (X − x̄)^{⊤}S^{-1}(X − x̄) ~ ((n−1)p/(n−p)) F_{p, n−p}'],q:'Proof question',l:{t2:'Same F distribution'}},
+ anova:{f:['SST = SSB + SSW','F = (SSB/(k−1)) / (SSW/(n−k))'],q:'Analogy for the multivariate version',l:{manova:'Sums of squares become SSCP matrices'}},
+ mlmls:{f:['Y = XB + E, each row of E ~ N_{p}(0, Σ)','B̂ = (X^{⊤}X)^{-1}X^{⊤}Y (each column is a separate OLS fit)','Residual SSCP: Ê^{⊤}Ê = Y^{⊤}(I − H)Y, Σ̂ = Ê^{⊤}Ê/(n − k)'],q:'Derivations in 2022 Q4(a), (b)',l:{cond:'At population level, regression = conditional mean'}},
+ cb:{f:['Constrained estimator: B̂_{0} = B̂ − (X^{⊤}X)^{-1}C^{⊤}[C(X^{⊤}X)^{-1}C^{⊤}]^{-1}CB̂','Hypothesis SSCP: H = (CB̂)^{⊤}[C(X^{⊤}X)^{-1}C^{⊤}]^{-1}(CB̂)','Tests compare the size of H with E'],q:'Lagrange derivation in 2022 Q4(c)',l:{cmle:'Same Lagrange steps',wilks:'H and E form the test statistics'}},
+ wilks:{f:['All are functions of the eigenvalues θ_{i} of HE^{-1} (Lemmas 8.1, 8.2)','Wilks’ Λ = |E| / |E + H| = ∏ 1/(1 + θ_{i}); reject when small','Pillai = Σ θ_{i}/(1 + θ_{i}), Hotelling–Lawley = Σ θ_{i}, Roy = θ_{max}','anova() on an mlm uses Pillai by default'],q:'Read MANOVA output; true/false (reject for small Λ)',l:{ray:'θ are generalised eigenvalues',ccatest:'Canonical correlation tests use the same four statistics'}},
+ manova:{f:['H_{0}: μ_{1} = … = μ_{k}','W = Σ_{g} Σ_{i} (x_{gi} − x̄_{g})(x_{gi} − x̄_{g})^{⊤}, B = Σ_{g} n_{g}(x̄_{g} − x̄)(x̄_{g} − x̄)^{⊤}','Λ = |W| / |B + W|; for k = 2 equivalent to the two-sample T²'],q:'Read output; test equal covariances first'},
+ lrtframe:{f:['Λ = max_{H_{0}} L / max L','−2 log Λ ≈ χ^{2}, df = difference in the number of free parameters','Under normality the LRT usually reduces to a ratio of determinants'],q:'Fixed four steps: two MLEs → plug in → take the ratio → count df'},
+ sigma0:{f:['Transform Y_{i} = Σ_{0}^{−1/2}X_{i} to test Σ = I','−2 log Λ = np log n − n log|V| + tr V − np, V = Σ (x_{i} − x̄)(x_{i} − x̄)^{⊤}','≈ χ^{2}_{p(p+1)/2}'],q:'Derivation'},
+ sph:{f:['Λ^{2/n} = |Σ̂| / (tr Σ̂ / p)^{p}','= (geometric mean / arithmetic mean of the eigenvalues)^{p} (Ex 9.1)','df = p(p+1)/2 − 1'],q:'Prove the eigenvalue form'},
+ lrtindep:{f:['H_{0}: Σ diagonal: Λ^{2/n} = |S| / ∏ s_{ii} = |R| (Ex 9.2)','−n log|R| ≈ χ^{2}_{p(p−1)/2}','Block independence: |S| / (|S_{11}| |S_{22}|)'],q:'Exactly 2022 Q2(b)',l:{ccatest:'The block version is Wilks’ Λ for canonical correlations'}},
+ box:{f:['H_{0}: Σ_{1} = … = Σ_{k}','ρ[N log|S_{pooled}| − Σ N_{i} log|S_{i}|] ~ χ^{2}_{(k−1)p(p+1)/2} (Eq. 9.2)','Decides whether to pool: two-sample T², MANOVA, LDA'],q:'Assignment 2 Q2(b); read boxM output'},
+ partial:{f:['Standardise Σ_{11·2} = Σ_{11} − Σ_{12}Σ_{22}^{-1}Σ_{21}','ρ_{12·3} = (ρ_{12} − ρ_{13}ρ_{23}) / √((1 − ρ_{13}^{2})(1 − ρ_{23}^{2}))','⚠️ Not an entry of Σ'],q:'By hand (2022 Q3b, midterm)',l:{corrtest:'When testing, subtract the number of conditioning variables from the df'}},
+ multiple:{f:['R^{2} = σ_{0}^{⊤}Σ_{XX}^{-1}σ_{0} / σ_{YY}','Lemma 5.2: R = correlation between Y and its best linear predictor β^{⊤}X, the largest over all linear combinations','MSE of the best linear predictor = σ_{YY}(1 − R^{2})'],q:'By hand (2022 Q3a); prove Lemma 5.2',l:{cca:'When one set has a single variable, canonical correlation = multiple correlation'}},
+ corrtest:{f:['ρ = 0: T = r √((n − 2)/(1 − r^{2})) ~ t_{n−2}','ρ = ρ_{0}: Z = ½ log((1 + r)/(1 − r)) ≈ N(½ log((1 + ρ_{0})/(1 − ρ_{0})), 1/(n − 3))','Partial (k conditioning variables): n − 2 → n − k − 2, n − 3 → n − k − 3','Multiple: (R̂^{2}/(1 − R̂^{2})) · (n − p)/(p − 1) ~ F_{p−1, n−p} (p includes Y)'],q:'Compute test statistics; cor.test in R'},
+ cca:{f:['max corr(a^{⊤}X^{(1)}, b^{⊤}X^{(2)})','ρ_{i}^{2} = eigenvalues of Σ_{11}^{−1/2}Σ_{12}Σ_{22}^{-1}Σ_{21}Σ_{11}^{−1/2}','Canonical variables have variance 1; different pairs are uncorrelated'],q:'Hand calculation for special structures (Ex 7.3, 7.4)',l:{ray:'A generalised eigenvalue problem'}},
+ ccatest:{f:['H_{0}: Σ_{12} = 0 ⇔ all canonical correlations are 0','Statistics are functions of the eigenvalues of S_{22}^{−1/2}S_{21}S_{11}^{-1}S_{12}S_{22}^{−1/2}','Wilks’ Λ = ∏ (1 − ρ̂_{i}^{2}) = |S| / (|S_{11}| |S_{22}|); also Pillai, Roy, with F approximations'],q:'Read CCP output: how many pairs are significant',l:{lrtindep:'Same ratio of determinants'}},
+ ccar:{f:['cancor() to compute; CCA package to visualise; CCP package to test','Interpret the standardised coefficients'],q:'Tutorial W5'},
+ pcadef:{f:['Y_{i} = e_{i}^{⊤}X, e_{i} = unit eigenvector for the i-th largest eigenvalue λ_{i} of Σ','Var(Y_{i}) = λ_{i}, Cov(Y_{i}, Y_{j}) = 0','Derivation: max a^{⊤}Σa s.t. a^{⊤}a = 1 and uncorrelated with earlier PCs'],q:'First PC (in “one Σ” questions); prove the maximum-variance property'},
+ pcaprop:{f:['Total variance tr Σ = Σ λ_{i}','Proportion explained by the k-th PC: λ_{k} / Σ λ_{i}','corr(Y_{i}, X_{k}) = e_{ik}√λ_{i} / √σ_{kk}'],q:'Proportions explained; eigenvalues from sdev (2022 Q5a-3)'},
+ pcascale:{f:['PCA is not scale invariant; the two results generally differ','Different units or very different variances → use the correlation matrix (prcomp(scale = TRUE))','With the correlation matrix Σ λ_{i} = p'],q:'2022 Q5(a-1), (a-2)'},
+ pcanum:{f:['Scree plot: look for the elbow','Kaiser: keep λ > 1 (correlation matrix)','Cumulative proportion reaching 80%–90%'],q:'Decide the number from output (2022 Q5a-4)',l:{fanum:'Compare with choosing the number of factors'}},
+ pcar:{f:['prcomp: sdev^{2} = eigenvalues, rotation = eigenvectors','A biplot shows observations and variables together'],q:'Read summary(prcomp)'},
+ port:{f:['Return c^{⊤}μ, risk c^{⊤}Σc, Σ c_{i} = 1','Minimise risk for a given return: Lagrange multipliers'],q:'Know the idea'},
+ famodel:{f:['X − μ = LF + ε, F ~ (0, I), ε ~ (0, Ψ), Ψ diagonal','Σ = LL^{⊤} + Ψ, Cov(X, F) = L','Communality h_{i}^{2} = Σ_{j} ℓ_{ij}^{2}, σ_{ii} = h_{i}^{2} + ψ_{i}'],q:'From L and Ψ compute Σ, communalities and proportions explained',l:{sem:'Factor analysis is the measurement part of SEM'}},
+ fanum:{f:['H_{0}: m factors are sufficient; statistic ≈ χ^{2}','df = ½[(p − m)^{2} − p − m]','Small p-value → too few factors; take the smallest m not rejected'],q:'Read factanal output (2022 Q5b-1)',l:{semeval:'Same chi-square test of a fitted Σ(θ)'}},
+ rot:{f:['L → LT (T orthogonal) leaves Σ = LL^{⊤} + Ψ unchanged','Varimax: maximise the variance of squared loadings in each column, for easier interpretation'],q:'Concept question'},
+ fapc:{f:['Principal component solution: L̃ = [√λ_{1} e_{1}, …, √λ_{m} e_{m}], Ψ̃ = diag(S − L̃L̃^{⊤})','Principal factor solution: eigendecompose S − Ψ and iterate'],q:'Write loadings from eigenvalues and eigenvectors'},
+ pcavsfa:{f:['PCA: a transformation of the data, no model, explains total variance','FA: a statistical model with specific variances Ψ, explains the covariance structure','FA loadings can be rotated; adding a factor changes all loadings'],q:'2022 Q5(b-2)'},
+ sem:{f:['Structural model: η = Bη + Γξ + ζ','Measurement model: Y = Λ_{Y}η + ε, X = Λ_{X}ξ + δ','Special cases: econometric model, measurement-error model, factor analysis'],q:'Concept questions; draw a path diagram'},
+ semeval:{f:['Fit Σ(θ) close to S (ML discrepancy F_{ML})','H_{0}: Σ = Σ(θ): T = (n − 1) F_{ML}(θ̂) ≈ χ^{2}','df = (p + q)(p + q + 1)/2 − dim(θ)'],q:'Read lavaan output; count the degrees of freedom'},
+ efa:{f:['EFA: number of factors not fixed in advance; errors uncorrelated','CFA: model specified in advance, some loadings fixed at 0 or 1, errors may correlate'],q:'Concept question'},
+ ecm:{f:['ECM = c(2|1)P(2|1)p_{1} + c(1|2)P(1|2)p_{2}','Optimal: allocate to π_{1} if f_{1}(x)/f_{2}(x) ≥ (c(1|2)/c(2|1)) · (p_{2}/p_{1}) (Thm 12.2)','TPM: equal costs; Bayes: allocate to the largest posterior probability'],q:'Prove Thm 12.2; write the rule for given costs and priors'},
+ lda:{f:['Allocate to π_{1} if (μ_{1} − μ_{2})^{⊤}Σ^{-1}x − ½(μ_{1} − μ_{2})^{⊤}Σ^{-1}(μ_{1} + μ_{2}) ≥ log k','Sample version (Fisher’s linear discriminant function): μ_{i} → x̄_{i}, Σ → S_{pooled}','The boundary is a hyperplane'],q:'Derive the boundary by hand (Assignment 2 Q2d)',l:{two:'Same S_{pooled}^{-1}(x̄_{1} − x̄_{2})'}},
+ qda:{f:['−½x^{⊤}(Σ_{1}^{-1} − Σ_{2}^{-1})x + (μ_{1}^{⊤}Σ_{1}^{-1} − μ_{2}^{⊤}Σ_{2}^{-1})x − c ≥ log k','The boundary is a quadratic curve','Σ_{i} estimated per group: many parameters, overfits in small samples'],q:'2022 Q5(c-2): compare cross-validated error rates of LDA and QDA',l:{mbc:'Same density as Gaussian mixture clustering'}},
+ err:{f:['Δ^{2} = (μ_{1} − μ_{2})^{⊤}Σ^{-1}(μ_{1} − μ_{2})','Optimal error rate with equal priors and costs = Φ(−Δ/2)','Apparent error rate (APER, resubstitution) is optimistic'],q:'Compute the optimal error rate'},
+ cv:{f:['Leave-one-out: drop one observation, train, then predict it','lda(..., CV = TRUE) gives leave-one-out predictions directly','Error rate = sum of off-diagonal entries of the confusion matrix / n'],q:'2022 Q5(c-1): which number is the best estimate of the misclassification probability'},
+ multi:{f:['Equal Σ and priors: d_{i}(x) = μ_{i}^{⊤}Σ^{-1}x − ½ μ_{i}^{⊤}Σ^{-1}μ_{i}, pick the largest','Setting pairs equal gives straight-line boundaries'],q:'Classification regions for three groups by hand'},
+ risk:{f:['Expected risk depends on the unknown distribution and cannot be computed','Minimising only the empirical (training) risk overfits','SVMs control complexity through the margin'],q:'Concept question'},
+ hard:{f:['Hyperplane w^{⊤}x + b = 0, margin 2/‖w‖','min ½‖w‖^{2} s.t. y_{i}(w^{⊤}x_{i} + b) ≥ 1','The solution depends only on the support vectors (Lagrange dual)'],q:'Write the optimisation problem; explain support vectors',l:{cmle:'Lagrange multipliers'}},
+ soft:{f:['Slack variables ξ_{i} ≥ 0: min ½‖w‖^{2} + C Σ ξ_{i}','Large cost C → less tolerance of misclassification → overfitting'],q:'Explain the cost parameter'},
+ kernel:{f:['Replace inner products by K(x, x′) to get non-linear boundaries','RBF: K = exp(−γ‖x − x′‖^{2}); large γ → wigglier boundary, overfitting'],q:'Explain the gamma parameter',l:{qda:'Another way to get a non-linear boundary'}},
+ svmtune:{f:['Multiclass: one-vs-one or one-vs-rest','tune() chooses cost and gamma by cross-validation','ROC curves evaluate binary classifiers'],q:'Tutorial W10 code'},
+ svmvs:{f:['No normality or other distributional assumption','Determined only by the support vectors, robust to points far from the boundary','Kernels give non-linear boundaries; usable when p is large relative to n'],q:'2022 Q5(c-3)'},
+ clvs:{f:['Classification: supervised, labels known, assign new observations to classes','Clustering: unsupervised, no labels, find groups by similarity'],q:'2022 Q5(c-3)'},
+ kmeans:{f:['Minimise the within-cluster sum of squares: assign → update centres, iterate','K is fixed in advance; sensitive to starting values and outliers','K-medoids uses actual observations as centres, more robust'],q:'One or two iterations by hand; kmeans()'},
+ hc:{f:['Agglomerative: merge the two closest clusters at each step','Linkage: single, complete, average, Ward','Cut the dendrogram to get clusters'],q:'Merge order from a distance matrix by hand; hclust()'},
+ assess:{f:['Silhouette width measures within-cluster tightness and between-cluster separation'],q:'Read a silhouette plot'},
+ mbc:{f:['Normal mixture: f(x) = Σ π_{g} N_{p}(μ_{g}, Σ_{g})','Estimated by EM; BIC chooses the number of clusters and the covariance structure'],q:'Concept question; read mclust output',l:{qda:'Same density, but labels unknown'}},
+ sklar:{f:['F(x_{1}, x_{2}) = C(F_{1}(x_{1}), F_{2}(x_{2}))','C is unique when the margins are continuous','A copula is a joint distribution with uniform margins'],q:'Concept question; split a joint distribution into margins + dependence'},
+ ellc:{f:['Gaussian copula: C(u, v) = Φ_{ρ}(Φ^{-1}(u), Φ^{-1}(v))','t copula'],q:'Concept question',l:{mvndef:'Derived from the multivariate normal'}},
+ archc:{f:['C(u, v) = φ^{-1}(φ(u) + φ(v)), φ the generator','Gumbel–Hougaard: exp{−[Σ (−log u_{j})^{θ}]^{1/θ}}; θ = 1 gives independence','Clayton (Ex 15.1)'],q:'Show a copula is Archimedean: find its generator'},
+ copest:{f:['Estimate the margins first (empirical or parametric), then the copula parameter','copula package: fitting and simulation'],q:'Read code'}
+};
+const CH_EN=[
+ {t:'Eigenvalue problems',d:'Maximising a ratio of quadratic forms always leads to eigenvalues. Once the Rayleigh quotient is clear, the PCA, CCA and MANOVA derivations just swap the matrices.'},
+ {t:'Conditional distributions',d:'The conditional covariance Σ₁₁·₂ is the common source of partial correlation, multiple correlation and regression. All of 2022 Q3 sits on this thread. With sample estimates you then test them: subtract the number of conditioning variables from the df.'},
+ {t:'Likelihood ratio tests',d:'Find the MLEs under both hypotheses, plug in to get a ratio of determinants, compare −2 log Λ with χ², and count parameters for the df. One method covers ten tests.'},
+ {t:'Mahalanobis distance',d:'(x − μ)ᵀΣ⁻¹(x − μ) appears in the density, the χ² distribution, T², confidence ellipsoids, discrimination and error rates.'},
+ {t:'Pooled covariance',d:'Whenever S_pooled appears, first ask whether the covariance matrices are equal. If not, use the unpooled T² or QDA.'},
+ {t:'Constrained optimisation',d:'Lagrange multipliers appeared twice in the 2022 paper (18 marks). PCA, SVMs and portfolio optimisation use the same steps.'},
+ {t:'Dimension reduction and latent variables',d:'PCA is a transformation, factor analysis is a model, and SEM uses factor analysis as its measurement part. The 2022 paper asked for exactly this comparison.'},
+ {t:'Classification and clustering',d:'The optimal rule gives LDA and QDA, evaluated by cross-validation. SVMs drop the distributional assumptions; clustering has no labels at all.'}
+];
+const QEN={
+ 'f22-1':{t:'2022 Q1 (5 marks)',d:'Let A ∈ M_{p,p} be arbitrary and Q ∈ M_{p,p} orthogonal. Show that A and Q^{⊤}AQ have the same eigenvalues.',p:['det(Q^{⊤}AQ − λI) = det(A − λI): same characteristic polynomial'],ans:'No official solution; worked through in our chat'},
+ 'f22-2':{t:'2022 Q2 (20 marks)',d:'X_{1},…,X_{n} is an i.i.d. sample from N_{p}(μ, Σ).',p:['If Σ is known, propose a test statistic and its distribution for H_{0}: μ_{1} = … = μ_{p}; find the size-α rejection region (6)','If Σ is unknown, propose a likelihood ratio test statistic and its distribution for testing the uncorrelatedness of X_{1},…,X_{p} (6)','If Σ = σ^{2}I, σ^{2} known and μ^{⊤}μ = 1, show that the MLE of μ is x̄/(x̄^{⊤}x̄)^{1/2} (8)'],ans:'No official solution; worked through in our chat'},
+ 'f22-3':{t:'2022 Q3 (15 marks)',d:'X ~ N_{4}(μ, Σ) with Σ_{11} = Σ_{22} = [[1, ρ_{1}],[ρ_{1}, 1]] and every entry of Σ_{12} = Σ_{21} equal to ρ_{2}.',p:['Find the multiple correlation coefficient between X_{1} and X_{(2)} (7)','Find the partial correlation coefficient ρ_{12·3,4} (8)'],ans:'No official solution; worked through in our chat'},
+ 'f22-4':{t:'2022 Q4 (20 marks)',d:'Multivariate regression model Y = Xβ + E with ε_{i} ~ N_{p}(0, σ^{2}I).',p:['Show that minimising tr(Y − Xβ)^{⊤}(Y − Xβ) leads to β̂ = (X^{⊤}X)^{-1}X^{⊤}Y (5)','Show that (Y − Xβ̂)^{⊤}(Y − Xβ̂) = Y^{⊤}(I − X(X^{⊤}X)^{-1}X^{⊤})Y (5)','Show that under Cβ = 0 the estimator is β̂_{0} = β̂ − (X^{⊤}X)^{-1}C^{⊤}[C(X^{⊤}X)^{-1}C^{⊤}]^{-1}Cβ̂ (10; Lagrange multipliers)'],ans:'No official solution; worked through in our chat'},
+ 'f22-5':{t:'2022 Q5 (40 marks)',d:'Data analysis: applicant data (48 applicants rated on 15 criteria); interpret R output.',p:['PCA: covariance or correlation matrix? Same results in general, and why? Largest eigenvalue? How many PCs to keep? (14)','Factor analysis: how many factors? In line with (a)? Difference between PCA and factor analysis (10)','Discriminant analysis: best estimate of the LDA misclassification probability; is QDA preferable; classification vs clustering; advantage of SVMs (16)'],ans:'No official solution; worked through in our chat'},
+ 'mock-1':{t:'Mock Q1 True/False (40 marks)',d:'16 TRUE/FALSE statements covering S0–S7.',p:['If A is an orthogonal matrix, then |A| = 1.','For symmetric positive definite Σ, tr(Σ) is the sum and |Σ| the product of its eigenvalues.','If X ~ N_{p}(μ, Σ) and Σ is diagonal, the components are mutually independent.','If X_{1} and X_{2} are each univariate normal, then (X_{1}, X_{2})^{⊤} is bivariate normal.','Under the MVN model the MLE Σ̂ is unbiased.','nΣ̂ ~ W_{p}(Σ, n).','When p = 1, Hotelling’s T^{2} reduces to the square of the one-sample t statistic.','T² simultaneous intervals are narrower than one-at-a-time t intervals.','ρ_{12·3} can be non-zero even when ρ_{12} = 0.','The multiple correlation between Y and X is at least |ρ_{YX_{j}}| for every component X_{j}.','Fisher’s Z is used because r itself is approximately normal with variance not depending on ρ.','PCs from a p × p correlation matrix have eigenvalues summing to p.','The first PC coefficient vector is the eigenvector for the smallest eigenvalue.','Multiplying one variable by 100 does not change the PCs from S.','Canonical correlations are unchanged if variables are rescaled.','With r and q variables there are at most min(r, q) non-zero canonical correlations.'],ans:'No solutions; hints at the end of the paper'},
+ 'mock-2':{t:'Mock Q2 (30 marks)',d:'Y ~ N_{3}(0, Σ), Σ = [[2,1,0],[1,2,1],[0,1,2]].',p:['First principal component, its variance and the percentage of total variability','Joint distribution of U = Y_{1} − Y_{3} and V = Y_{1} + Y_{2} + Y_{3}; are they independent?','Conditional distribution of Y_{2} given Y_{1} = y_{1}, Y_{3} = y_{3}','Partial correlation ρ_{13·2}; compare with ρ_{13}','Why the canonical correlation between Y_{1} and (Y_{2}, Y_{3})^{⊤} equals the multiple correlation; compute it'],ans:'No solutions; hints at the end of the paper'},
+ 'mock-3':{t:'Mock Q3 (30 marks)',d:'Basic tools: matrices, quadratic forms, a T² test and an independence proof.',p:['Show E(XX^{⊤}) = Σ + μμ^{⊤} and that Σ is positive semi-definite','A = [[5,2],[2,2]]: eigenvalues, eigenvectors, spectral decomposition, |A|, A^{-1}, max y^{⊤}Ay / y^{⊤}y','Distribution of (X − μ)^{⊤}A^{-1}(X − μ); axes of the 95% contour','n = 21: test H_{0}: μ = (1, 2)^{⊤} at the 5% level','Show X_{(2)} − Σ_{21}Σ_{11}^{-1}X_{(1)} is independent of X_{(1)}'],ans:'No solutions; hints at the end of the paper'},
+ 'ex-0.1':{t:'Ex 0.1',d:'Joint density θx_{1}e^{−x_{1}(θ + x_{2})}: check it is a density, find the marginal and conditional densities, decide independence.',ans:'Notes pp. 13–14; solution p. 114'},
+ 'ex-0.2':{t:'Ex 0.2',d:'Var(X) = σ^{2}[[1,ρ],[ρ,1]]: find Cov(X_{1} − X_{2}, X_{1} + X_{2}), Cov(X_{1}, X_{2} − ρX_{1}), and the b minimising Var(X_{2} − bX_{1}).',ans:'Notes p. 14; solution p. 115'},
+ 'ex-0.3':{t:'Ex 0.3',d:'Use characteristic functions to find the cf of a subvector and the condition for independence.',ans:'Notes p. 14; solution p. 115'},
+ 'ex-0.4':{t:'Ex 0.4',d:'Show that the maximum of the Rayleigh quotient subject to y ⟂ e_{1} is λ_{2}; generalise.',ans:'Notes p. 14; solution p. 116'},
+ 'ex-0.5':{t:'Ex 0.5',d:'Show that rank = trace for an orthogonal projection matrix.',ans:'Notes p. 14; solution p. 116'},
+ 'ex-2.1':{t:'Ex 2.1',d:'X_{1}, X_{2} i.i.d. N(0,1): show X_{1} − X_{2} and X_{1} + X_{2} are independent; find P(X_{1}^{2} + X_{2}^{2} < 2.41).',ans:'Notes p. 25; solution p. 117'},
+ 'ex-2.2':{t:'Ex 2.2',d:'X ~ N_{3}(μ, Σ) with μ = (3, −1, 2)^{⊤} and a given Σ.',p:['Distribution of AX and the correlation between its components','Conditional distribution of (X_{1}, X_{3}) given X_{2} = 0'],ans:'Notes pp. 25–26; solution p. 117; drill 2-1'},
+ 'ex-2.3':{t:'Ex 2.3',d:'Use cfs to show linear combinations of independent normal vectors are normal; deduce X̄ ~ N_{p}(μ, Σ/n).',ans:'Notes p. 26; solution p. 118'},
+ 'ex-2.4':{t:'Ex 2.4',d:'X_{1} ~ N_{r} and X_{2} | X_{1} normal with linear mean and variance free of x_{1}: prove joint normality and find μ, Σ.',ans:'Notes p. 26; solution p. 118'},
+ 'ex-2.5':{t:'Ex 2.5',d:'Z ~ N(0,1), Y | Z ~ N(1 + z, 1), X | (Y, Z) ~ N(1 − y, 1): joint distribution, Y | (X, Z), E(Y | U = 2).',ans:'Notes p. 26; solution p. 118'},
+ 'ex-3.1':{t:'Ex 3.1',d:'Find the Kronecker product A ⊗ B.',ans:'Notes p. 33; no solution'},
+ 'ex-4.1':{t:'Ex 4.1',d:'Test H_{0}: μ_{2} − μ_{1} = … = μ_{p} − μ_{p−1} = 1: write the matrix C and the rejection region.',ans:'Notes pp. 41–42; solution p. 121; drill 2-6'},
+ 'ex-4.2':{t:'Ex 4.2',d:'Σ known, n = 50: test H_{0}: μ = 0.',ans:'Notes p. 42; solution p. 121; drill 2-7'},
+ 'ex-4.3':{t:'Ex 4.3',d:'Four bivariate observations: evaluate Hotelling’s T² for H_{0}: μ = (7, 11)^{⊤}.',ans:'Notes p. 42; solution p. 121; drill 2-4'},
+ 'ex-4.4':{t:'Ex 4.4',d:'Two independent samples with common known Σ: distribution of X̄ − Ȳ and a test of μ_{1} = μ_{2}.',ans:'Notes p. 42; solution p. 121'},
+ 'ex-4.5':{t:'Ex 4.5',d:'Additional observation X: show X − X̄ ~ N_{p}(0, (1 + 1/n)Σ) and build a (1 − α) prediction region.',ans:'Notes p. 42; solution p. 122'},
+ 'ex-5.1':{t:'Ex 5.1',d:'X ~ N_{4}(μ, Σ) with μ = (1, 2, 3, 4)^{⊤} and a given Σ.',p:['Distribution of (X_{1}, X_{2}, X_{3}, X_{1} + X_{2} + X_{4})','Conditional distribution of X_{1} given x_{2}, x_{3}, x_{4}','ρ_{12·3} and ρ_{12·4}','Multiple correlation; compare with ρ_{12}','Show a linear combination is independent of (X_{2}, X_{3}, X_{4})'],ans:'Notes p. 49; solution p. 123; drill 2-2, 2-3'},
+ 'ex-5.2':{t:'Ex 5.2',d:'X ~ N_{3}(μ, Σ) with μ = (2, −3, 1)^{⊤}.',p:['Distribution of 3X_{1} − 2X_{2} + X_{3}','Find a such that X_{2} and X_{2} − a^{⊤}(X_{1}, X_{3})^{⊤} are independent'],ans:'Notes p. 49; solution p. 125'},
+ 'ex-6.1':{t:'Ex 6.1',d:'One-Σ question with Σ = [[1, ρ/2, 0],[ρ/2, 1, ρ],[0, ρ, 1]].',p:['First PC: coefficients, variance, proportion explained','Joint distribution of (Y_{1}, Y_{2}, Y_{1} + Y_{2} + Y_{3})','Conditional distribution of (Y_{1}, Y_{2}) given Y_{3}','Multiple correlation of Y_{3} on (Y_{1}, Y_{2})'],ans:'Notes p. 54; solution p. 126; drill 2-9'},
+ 'ex-7.1':{t:'Ex 7.1',d:'Correlation matrix of 5 tests (n = 140): canonical correlations between the first 2 and last 3 variables, with R code.',ans:'Notes p. 58; solution p. 128'},
+ 'ex-7.2':{t:'Ex 7.2',d:'88 students, 5 papers: canonical correlations between the 2 closed-book and 3 open-book papers.',ans:'Notes p. 59; solution p. 129'},
+ 'ex-7.3':{t:'Ex 7.3',d:'Equicorrelated 4-D Σ: both canonical correlations and the first pair of canonical variables.',ans:'Notes p. 59; solution p. 129; drill 2-10'},
+ 'ex-7.4':{t:'Ex 7.4',d:'Verify that the first canonical pair is the 2nd and 3rd components, with canonical correlation 0.95.',ans:'Notes p. 59; solution p. 130; drill 2-11'},
+ 'ex-9.1':{t:'Ex 9.1',d:'Express the sphericity test statistic through the arithmetic and geometric means of the eigenvalues.',ans:'Notes p. 67; solution p. 131'},
+ 'ex-9.2':{t:'Ex 9.2',d:'Show that the LRT of H_{0}: Σ diagonal rejects when −n log|R| > χ^{2}_{p(p−1)/2}.',ans:'Notes p. 67; solution p. 131'},
+ 'ex-12.1':{t:'Ex 12.1',d:'Three bivariate normal populations with common Σ, equal priors and equal costs.',p:['Write down the classification rule','Classify three given points','Show the regions are separated by straight lines and sketch them'],ans:'Notes p. 86; solution p. 133'},
+ 'ex-15.1':{t:'Ex 15.1',d:'Show that the Clayton copula is Archimedean with generator φ(x) = θ^{-1}(x^{−θ} − 1).',ans:'Notes p. 113; solution p. 135'},
+ 'eg-0.2':{t:'Example 0.2',d:'The Rayleigh quotient has maximum λ_{1} and minimum λ_{p}.',ans:'Notes p. 8 (worked in the text)'},
+ 'eg-2.5':{t:'Example 2.5',d:'Counterexample: marginally normal and uncorrelated but not independent.',ans:'Notes p. 21 (worked in the text)'},
+ 'eg-2.6':{t:'Example 2.6',d:'Conditional distribution of a bivariate normal.',ans:'Notes p. 23 (worked in the text)'},
+ 'eg-2.7':{t:'Example 2.7',d:'Testing multivariate normality of the microwave oven data.',ans:'Notes p. 25; Tutorial W2'},
+ 'eg-4.4':{t:'Examples 4.4, 4.6, 4.7',d:'Microwave ovens: T² confidence ellipsoid, simultaneous intervals, Bonferroni intervals.',ans:'Notes pp. 38–39; Tutorial W4'},
+ 'eg-5.1':{t:'Example 5.1',d:'Intelligence, weight, age: ρ̂_{12} = 0.62 but ρ̂_{12·3} = 0.03.',ans:'Notes p. 45; drill 2-2'},
+ 'eg-5.3':{t:'Example 5.3',d:'Best linear predictor 3 + X_{1} − 2X_{2}, multiple correlation √0.3, prediction MSE 7.',ans:'Notes p. 47; drill 2-3'},
+ 'eg-5.4':{t:'Example 5.4',d:'Equivalent ways to compute the multiple correlation and the regression R².',ans:'Notes p. 47; Tutorial W4'},
+ 'eg-5.5':{t:'Examples 5.5, 5.6',d:'Testing ordinary and partial correlations (t test, Fisher’s Z).',ans:'Notes p. 48; Tutorial W4'},
+ 'eg-6.1':{t:'Example 6.1',d:'PCA from the covariance vs the correlation matrix gives very different results.',ans:'Notes p. 51 (worked in the text)'},
+ 'eg-6.2':{t:'Example 6.2',d:'PCA of US state crime rates.',ans:'Notes p. 53; Tutorial W5; drill 2-13'},
+ 'eg-7.1':{t:'Example 7.1',d:'Canonical correlation analysis of the fitness club data.',ans:'Notes p. 58; Tutorial W5; drill 2-14'},
+ 'eg-7.2':{t:'Example 7.2',d:'Chicken bone data: CCA from a correlation matrix only.',ans:'Notes p. 58'},
+ 'eg-8.3':{t:'Example 8.3',d:'Fitness data multivariate linear model: coefficients, Σ̂, Wilks’ test, equivalence to the canonical correlation test.',ans:'Notes p. 64; Tutorial W8'},
+ 'eg-10.1':{t:'Example 10.1',d:'Five socioeconomic variables for 12 LA census tracts: ML with varimax; 3 factors give negative df.',ans:'Notes p. 73; Tutorial W9'},
+ 'eg-11.1':{t:'Example 11.1',d:'Wheaton et al. anomie example.',ans:'Notes p. 78; Tutorial W9'},
+ 'eg-12.4':{t:'Example 12.4',d:'LDA, QDA and cross-validation on the iris data.',ans:'Notes p. 85; Tutorial W10'},
+ 'eg-13.1':{t:'Example 13.1',d:'SVM classification of the iris data with ROC curves.',ans:'Notes p. 94; Tutorial W10'},
+ 'eg-14.1':{t:'Example 14.1',d:'Hierarchical and non-hierarchical clustering of the iris data, and assessment.',ans:'Notes p. 100 (worked in the text)'},
+ 'eg-14.2':{t:'Example 14.2',d:'Model-based clustering and model selection.',ans:'Notes p. 104 (worked in the text)'},
+ 'eg-15.2':{t:'Example 15.2',d:'Show the Gumbel–Hougaard copula is Archimedean with generator (−log t)^{θ}.',ans:'Notes p. 111 (worked in the text)'},
+ 'eg-15.3':{t:'Examples 15.3, 15.4',d:'Copula modelling of the microwave data and a stock portfolio.',ans:'Notes p. 112 (worked in the text)'},
+ 'a1-1':{t:'Assignment 1 Q1 (14 marks)',d:'NBA 2020-21: age, minutes per game, points per game.',p:['Use ggpairs; is a multivariate normal assumption reasonable?','After a square-root transform, is the MVN more suitable?','Sample mean, S_{y}, R_{y}; do older players score more?','Distribution of Y_{3} given Y_{1} = y_{1}, Y_{2} = y_{2}','Proportion of variance in Y_{3} explained by Y_{1} and Y_{2}','Compare with summary(lm(PTS ~ Age + MP))','Predict points per game for a 39-year-old playing 35 minutes','Does (d) say older players score more? Does it contradict (c)?'],ans:'Your submitted assignment'},
+ 'a1-2':{t:'Assignment 1 Q2 (9 marks)',d:'Statistical downscaling: X ~ N_{4}; the coarse averages (X_{1} + X_{2})/2 and (X_{3} + X_{4})/2 are observed.',p:['Find C such that Y = CX','Distribution of Y; does it have a valid density?','Distribution of X | (Y_{5} = y_{5}, Y_{6} = y_{6})','Estimate X_{1}–X_{4} with 95% marginal intervals'],ans:'Your submitted assignment'},
+ 'a2-1':{t:'Assignment 2 Q1 (11 marks)',d:'PCA of NBA 2021-22 player statistics.',p:['Relationship between eigen(S) and prcomp’s standard deviations and rotation','Is the k = 6 approximation better than k = 1?','Why should the data have been standardised?','Number of PCs by the 90% total-variance criterion and by Kaiser’s rule','Which PC most clearly separates centres from other positions?','Read the loadings: four statistics centres do better in and four they do worse in'],ans:'Your submitted assignment'},
+ 'a2-2':{t:'Assignment 2 Q2 (11 marks)',d:'Cushing’s disease types a and b (n_{a} = 6, n_{b} = 10, p = 2).',p:['Test H_{0}: μ_{a} = μ_{b}','Test H_{0}: Σ_{a} = Σ_{b}','Were any assumptions in (a) not valid?','Derive and plot the linear decision boundary','Classify a patient with test values (1, −2)'],ans:'Your submitted assignment'},
+ 'tut-w1':{t:'W1 Matrices (with challenges)',d:'Matrix operations in R.',p:['Compute S with the centring matrix','Least squares with matrices: fitted values, SSE, MSE','Write a matrix power function: square root, inverse, inverse square root'],ans:'Coding list (03_代码题清单)'},
+ 'tut-w2':{t:'W2 Multivariate normal (with challenge)',d:'Simulation, density and normality diagnostics.',p:['Simulate MVN samples and plot the density','Mardia’s diagnostics','Wine data: find non-normal variables and transform them','Plotting with base R and ggplot2'],ans:'tutorial/w2/R Markdown- MVN.solution.md'},
+ 'tut-w4t':{t:'W4 Hotelling’s T² (microwave ovens)',d:'Confidence ellipsoid, projected intervals, Bonferroni.',p:['Draw the confidence ellipsoid (axes from the eigendecomposition)','Thm 4.5 simultaneous intervals vs Bonferroni intervals'],ans:'Tutorial sheet'},
+ 'tut-w4c':{t:'W4 Correlations (with challenges)',d:'Partial and multiple correlation, and tests.',p:['Partial correlation of intelligence and weight given age','Multiple correlation = √R² of a regression','t test and Fisher’s Z for correlations and partial correlations','Wine data: compute and test the correlation and partial correlation'],ans:'Tutorial sheet; challenge results in the coding list'},
+ 'tut-w5p':{t:'W5 PCA (US crime + pizza challenge)',d:'Fitting, number of PCs, interpretation.',p:['Fit and choose the number of PCs','Interpret the loadings and the biplot','Pizza A: PCA, number of PCs, which variables covary'],ans:'Tutorial sheet; challenge results in the coding list'},
+ 'tut-w5c':{t:'W5 CCA (fitness + pizza challenge)',d:'Estimation and testing.',p:['Estimate and visualise','Asymptotic and permutation tests','Pizza A: canonical correlations between two sets; how many are significant'],ans:'Tutorial sheet; challenge results in the coding list'},
+ 'tut-w8':{t:'W8 Multivariate linear models (fitness)',d:'Estimation, testing, diagnostics.',p:['Estimate the coefficients and Σ̂','Hypothesis tests (Pillai etc.)','Residual diagnostics'],ans:'Tutorial sheet'},
+ 'tut-w8c':{t:'W8 Challenges (pizza)',d:'Multivariate linear model, MANOVA, equal covariances.',p:['Fit and diagnose a model jointly predicting calories, ash and sodium','Is carbohydrate content predictive of the three responses?','Is fat content predictive given the other variables?','MANOVA: do the brands differ?','Is MANOVA’s equal-covariance assumption met (Box’s M)?'],ans:'Coding list (03_代码题清单)'},
+ 'tut-w9':{t:'W9 Factor analysis (socioeconomic + pizza challenge)',d:'Number of factors, rotation, interpretation.',p:['Fit with factanal and test the number of factors','Parallel analysis','Rotate and interpret the loadings','Pizza A: adequate number of factors and what they represent'],ans:'Tutorial sheet; challenge results in the coding list'},
+ 'tut-w9s':{t:'W9 Structural equation modelling (anomie)',d:'Estimation and interpretation with lavaan.',p:['Estimation','Interpret the path coefficients'],ans:'Tutorial sheet; coding list'},
+ 'tut-w10d':{t:'W10 Discriminant analysis (iris + pizza challenge)',d:'LDA, QDA, cross-validation.',p:['Fit LDA and QDA; boundaries','Confusion matrices and cross-validation','Compare LDA and QDA in-sample','Compare them with cross-validation','Classify a new pizza with the chosen classifier'],ans:'Tutorial sheet; challenge results in the coding list'},
+ 'tut-w10s':{t:'W10 SVM (iris + pizza challenge)',d:'Kernels, tuning, ROC.',p:['Two-class SVM: linear vs RBF kernels, effect of the parameters','Multiclass SVM and prediction','ROC curves','Pizza: select and tune an SVM, cross-validated accuracy, classify a new pizza'],ans:'Tutorial sheet; challenge results in the coding list'},
+ 'dr-2.5':{t:'Drill 2-5',d:'Simultaneous and Bonferroni intervals (made-up, hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
+ 'dr-2.8':{t:'Drill 2-8',d:'Two-sample T² test (made-up, hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
+ 'dr-2.12':{t:'Drill 2-12',d:'Testing correlation coefficients (made-up, hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
+ 'dr-2.13':{t:'Drill 2-13',d:'Reading PCA output (US crime).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
+ 'dr-2.14':{t:'Drill 2-14',d:'Reading CCA output (fitness).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'}
+};
+
+/* ---------- index ---------- */
+const P={},ORDER=[];
+MODS.forEach(m=>m.secs.forEach(s=>s.pts.forEach(p=>{p.sec=s;p.mod=m;P[p.id]=p;ORDER.push(p.id)})));
+const BACK={};
+ORDER.forEach(id=>(P[id].l||[]).forEach(([to,why])=>{(BACK[to]=BACK[to]||[]).push([id,why||''])}));
+const Q={},QI={};
+QS.forEach(q=>{Q[q.id]=q;q.ids=[];q.p.forEach(([lab,,ids])=>ids.forEach(i=>{
+  if(!q.ids.includes(i))q.ids.push(i);
+  const arr=(QI[i]=QI[i]||[]);let e=arr.find(x=>x[0]===q.id);if(!e){e=[q.id,[]];arr.push(e)}if(lab)e[1].push(lab)}))});
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const math=s=>esc(s).replace(/_\{([^}]*)\}/g,'<sub>$1</sub>').replace(/\^\{([^}]*)\}/g,'<sup>$1</sup>');
+const exEn=s=>String(s||'').replace(/、/g,', ').replace(/式 \(/g,'Eq. (');
+const zb=z=>z&&/[一-鿿]/.test(z)?`<span class="zh">${z}</span>`:'';
+const zi=z=>z?`<span class="zhi">${z}</span>`:'';
+const L=(en,zh)=>`${en}${zi(zh)}`;
+const PE=id=>EN[id]||{};
+const QE=id=>QEN[id]||{};
+const yEn=y=>String(y).replace(/(\d+)分/,'$1 marks');
+const tagsHTML=k=>[...k].map(c=>`<span class="tg ${c}" title="${TYPES_EN[c]} ${TYPES[c]}">${TAB[c]}</span>`).join('');
+
+let mastered=new Set();
+try{mastered=new Set(JSON.parse(localStorage.getItem('m5855-mastered')||'[]'))}catch(e){}
+const saveM=()=>{try{localStorage.setItem('m5855-mastered',JSON.stringify([...mastered]))}catch(e){}};
+let qdone=new Set();
+try{qdone=new Set(JSON.parse(localStorage.getItem('m5855-qdone')||'[]'))}catch(e){}
+const saveQ=()=>{try{localStorage.setItem('m5855-qdone',JSON.stringify([...qdone]))}catch(e){}};
+
+/* ---------- language ---------- */
+let lang='bi';
+try{if(localStorage.getItem('m5855-lang')==='en')lang='en'}catch(e){}
+const langBtn=document.getElementById('lang');
+function setLang(l){
+  lang=l;document.documentElement.classList.toggle('en-only',l==='en');
+  langBtn.setAttribute('aria-pressed',l==='en');
+  langBtn.textContent=l==='en'?'English only · 只看英文':'English + 中文 · 中英对照';
+  try{localStorage.setItem('m5855-lang',l)}catch(e){}
+}
+langBtn.onclick=()=>setLang(lang==='en'?'bi':'en');
+setLang(lang);
+
+/* ---------- filters ---------- */
+const FILTERS=[['all','All','全部'],['P','Proof','证明'],['C','Concept','概念'],['N','Calculation','计算'],['R','Code','代码'],['y','In 2022 exam','2022 考过'],['nonote','No notes yet','还没笔记'],['noq','No questions','没有题目'],['todo','Not mastered','未掌握']];
+let filter='all',query='',current='cond';
+const fbox=document.getElementById('filters');
+fbox.innerHTML=FILTERS.map(([k,en,zh])=>`<button type="button" class="chip" data-f="${k}" aria-pressed="${k==='all'}">${k.length===1&&'PCNR'.includes(k)?`<span class="tg ${k}">${TAB[k]}</span>`:''}${L(en,zh)}</button>`).join('');
+fbox.addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;filter=b.dataset.f;fbox.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));applyFilter(true)});
+document.getElementById('q').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();applyFilter(true)});
+
+function match(p){
+  if(filter==='y'&&!p.y)return false;
+  if(filter==='nonote'&&p.note)return false;
+  if(filter==='noq'&&QI[p.id])return false;
+  if(filter==='todo'&&mastered.has(p.id))return false;
+  if(filter.length===1&&'PCNR'.includes(filter)&&!p.k.includes(filter))return false;
+  if(query){const e=PE(p.id);const hay=[p.t,p.en,p.f.join(' '),p.q||'',p.sec.t,p.sec.en,(e.f||[]).join(' '),e.q||''].join(' ').toLowerCase();if(!hay.includes(query))return false}
+  return true;
+}
+
+/* ---------- tree ---------- */
+const tree=document.getElementById('tree');
+tree.innerHTML=MODS.map(m=>`<div class="mod"><div class="mod-h"><h2>${m.en}</h2><span class="zhi">${m.t}</span></div>${m.secs.map(s=>`
+ <div class="sec" data-sec="${s.n}" data-open="true">
+  <button type="button" class="sec-h" aria-expanded="true"><span class="car">▸</span><span class="num">S${s.n}</span><span class="tt">${esc(s.en)}${zi(esc(s.t))}</span><span class="cnt"></span></button>
+  <ul class="pts">${s.pts.map(p=>`<li data-id="${p.id}"><button type="button" class="pt" data-id="${p.id}"><span class="name"><span class="nm">${esc(p.en)}</span>${zi(esc(p.t))}</span><span class="tags">${tagsHTML(p.k)}</span>${p.y?`<span class="y22" title="2022 final 2022 期末">22</span>`:''}<span class="qn${QI[p.id]?'':' zero'}" title="${QI[p.id]?QI[p.id].length+' 题':'无题'}">${QI[p.id]?QI[p.id].length+' Q':'no Q'}</span></button></li>`).join('')}</ul>
+ </div>`).join('')}</div>`).join('');
+tree.addEventListener('click',e=>{
+  const h=e.target.closest('.sec-h');
+  if(h){const s=h.parentElement,o=s.dataset.open!=='true';s.dataset.open=o;h.setAttribute('aria-expanded',o);return}
+  const b=e.target.closest('.pt');if(b)select(b.dataset.id,false);
+});
+function setAll(o){tree.querySelectorAll('.sec').forEach(s=>{s.dataset.open=o;s.querySelector('.sec-h').setAttribute('aria-expanded',o)})}
+document.getElementById('openAll').onclick=()=>setAll(true);
+document.getElementById('closeAll').onclick=()=>setAll(false);
+
+function applyFilter(open){
+  const rx=query?new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'):null;
+  tree.querySelectorAll('.sec').forEach(sec=>{
+    let n=0,tot=0;
+    sec.querySelectorAll('li[data-id]').forEach(li=>{const p=P[li.dataset.id];tot++;const ok=match(p);li.classList.toggle('hide',!ok);if(ok)n++;
+      li.querySelector('.nm').innerHTML=rx?esc(p.en).replace(rx,x=>`<mark>${x}</mark>`):esc(p.en);
+      li.querySelector('.pt').classList.toggle('done',mastered.has(p.id))});
+    sec.classList.toggle('hide',n===0);
+    const filtered=filter!=='all'||query;
+    sec.querySelector('.cnt').textContent=filtered?`${n} / ${tot}`:`${tot}`;
+    if(open&&filtered&&n>0){sec.dataset.open=true;sec.querySelector('.sec-h').setAttribute('aria-expanded',true)}
+  });
+  tree.querySelectorAll('.mod').forEach(m=>m.classList.toggle('hide',!m.querySelector('.sec:not(.hide)')));
+}
+
+/* ---------- point detail ---------- */
+const det=document.getElementById('detail');
+function linkBtn(to,whyZh,whyEn){const p=P[to];if(!p)return'';
+  return `<button type="button" class="lnk" data-go="${to}"><span class="to">${esc(p.en)}${zb(esc(p.t))}</span><span class="why">${whyEn?math(whyEn):'S'+p.sec.n+' '+esc(p.sec.en)}${whyZh?zb(math(whyZh)):zb(esc(p.sec.t))}</span></button>`}
+const H4=(en,zh)=>`<h4>${en}${zi(zh)}</h4>`;
+function select(id,scroll){
+  current=id;const p=P[id],e=PE(id);
+  tree.querySelectorAll('.pt').forEach(b=>b.setAttribute('aria-current',b.dataset.id===id));
+  const out=p.l||[];
+  const outIds=new Set(out.map(x=>x[0]));
+  const back=(BACK[id]||[]).filter(([from])=>!outIds.has(from));
+  const ef=e.f||[];
+  det.innerHTML=`
+   <div class="d-sec">S${p.sec.n} · ${esc(p.sec.en)} · ${esc(p.mod.en)}${zi(esc(p.sec.t)+' · '+esc(p.mod.t))}</div>
+   <h3>${esc(p.en)}</h3>${zb(esc(p.t))}
+   <div class="d-badges">${[...p.k].map(c=>`<span class="tg ${c}">${TYPES_EN[c]}${zi(TYPES[c])}</span>`).join('')}${p.y?`<span class="y22">2022 final ${esc(yEn(p.y))}${zi('2022 期末 '+esc(p.y))}</span>`:''}</div>
+   <div class="blk">${H4('Core content','核心内容')}<div class="fx">${p.f.map((z,i)=>`<div>${math(ef[i]||z)}${ef[i]?zb(math(z)):''}</div>`).join('')}</div></div>
+   ${p.q?`<div class="blk">${H4('Typical questions','常见考法')}<div class="note">${math(e.q||p.q)}${e.q?zb(math(p.q)):''}</div></div>`:''}
+   <div class="blk">${H4('Where in the notes','讲义出处与练习')}<div class="note">${esc(exEn(p.ex)||'—')}</div></div>
+   <div class="blk">${H4('My notes','我的笔记')}<div class="note">${p.note?`<code>知识点笔记/${esc(p.note)}.md</code>`:`<span class="none">No notes yet${zi('还没有笔记')}</span>`}</div></div>
+   ${out.length?`<div class="blk">${H4(`Leads to (${out.length})`,'连向')}<div class="lnks">${out.map(([t,w])=>linkBtn(t,w,(e.l||{})[t])).join('')}</div></div>`:''}
+   ${back.length?`<div class="blk">${H4(`Used by (${back.length})`,'被这些知识点用到')}<div class="lnks">${back.map(([f,w])=>linkBtn(f,w,(PE(f).l||{})[id])).join('')}</div></div>`:''}
+   <div class="blk">${H4(`Questions that use it (${(QI[id]||[]).length})`,'用到它的题目')}${QI[id]?`<div class="lnks">${QI[id].map(([qid,labs])=>{const q=Q[qid],qe=QE(qid);return `<button type="button" class="qlink${qdone.has(qid)?' done':''}" data-q="${qid}"><span class="qt">${esc(qe.t||q.t)}${zi(esc(q.t))}</span><span class="qs">${SRC_EN[q.s]}</span><span class="qp">${labs.length?'Part '+labs.join(', ')+': ':''}${math(qe.d||q.d)}${zb(math(q.d))}</span></button>`}).join('')}</div>`:`<div class="note none">No question in the bank uses it yet; practise the derivation in the notes${zi('题库里还没有题用到它，可以把讲义里的推导当题练')}</div>`}</div>
+   <button type="button" class="mbtn" id="mbtn" aria-pressed="${mastered.has(id)}">${mastered.has(id)?'✓ Mastered'+zi('已掌握'):'Mark as mastered'+zi('标记为已掌握')}</button>`;
+  if(scroll){const li=tree.querySelector(`li[data-id="${id}"]`);const sec=li.closest('.sec');sec.dataset.open=true;sec.querySelector('.sec-h').setAttribute('aria-expanded',true);
+    if(li.classList.contains('hide')){filter='all';query='';document.getElementById('q').value='';fbox.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.f==='all'));applyFilter(false)}
+    li.scrollIntoView({block:'nearest',behavior:'smooth'})}
+  if(window.matchMedia('(max-width:860px)').matches&&scroll===false)det.scrollIntoView({behavior:'smooth',block:'start'});
+}
+det.addEventListener('click',e=>{
+  const qb=e.target.closest('[data-q]');if(qb){showView('q');selectQ(qb.dataset.q,true);return}
+  const g=e.target.closest('[data-go]');if(g){select(g.dataset.go,true);return}
+  if(e.target.closest('#mbtn')){mastered.has(current)?mastered.delete(current):mastered.add(current);saveM();select(current,null);applyFilter(false);stats()}
+});
+
+/* ---------- chains ---------- */
+const ch=document.getElementById('chains');
+ch.innerHTML=CHAINS.map((c,i)=>{const e=CH_EN[i];return `<div class="chain"><h3>${esc(e.t)}${zi(esc(c.t))}</h3><p>${esc(e.d)}${zb(esc(c.d))}</p><div class="flow">${c.ids.map((id,j)=>`${j?'<span class="arr">→</span>':''}<button type="button" class="chip" data-go="${id}" title="${esc(P[id].t)}">${esc(P[id].en)}</button>`).join('')}</div></div>`}).join('');
+ch.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){select(g.dataset.go,true);det.scrollIntoView({behavior:'smooth',block:'nearest'})}});
+
+/* ---------- views ---------- */
+const vT=document.getElementById('view-tree'),vQ=document.getElementById('view-q');
+function showView(v){
+  vT.hidden=v!=='tree';vQ.hidden=v!=='q';
+  document.getElementById('tab-tree').setAttribute('aria-selected',v==='tree');
+  document.getElementById('tab-q').setAttribute('aria-selected',v==='q');
+}
+document.getElementById('tab-tree').onclick=()=>showView('tree');
+document.getElementById('tab-q').onclick=()=>showView('q');
+
+/* ---------- question bank ---------- */
+const QF=[['all','All','全部'],...Object.keys(SRC).map(k=>[k,SRC_EN[k],SRC[k]]),['undone','Not done','未做']];
+let qf='all',qquery='',qcur='f22-3';
+const qfbox=document.getElementById('qfilters');
+qfbox.innerHTML=QF.map(([k,en,zh])=>`<button type="button" class="chip" data-qf="${k}" aria-pressed="${k==='all'}">${L(en,zh)}</button>`).join('');
+qfbox.addEventListener('click',e=>{const b=e.target.closest('[data-qf]');if(!b)return;qf=b.dataset.qf;qfbox.querySelectorAll('[data-qf]').forEach(x=>x.setAttribute('aria-pressed',x===b));applyQ()});
+document.getElementById('qq').addEventListener('input',e=>{qquery=e.target.value.trim().toLowerCase();applyQ()});
+const qtree=document.getElementById('qtree');
+qtree.innerHTML=Object.keys(SRC).map(k=>{const qs=QS.filter(q=>q.s===k);return `<div class="mod qgroup" data-src="${k}"><div class="mod-h"><h2>${SRC_EN[k]}</h2><span class="zhi">${SRC[k]}</span><span class="en">${qs.length} questions</span></div><ul class="pts">${qs.map(q=>{const qe=QE(q.id);return `<li data-qid="${q.id}"><button type="button" class="pt" data-q="${q.id}"><span class="name"><span class="nm">${esc(qe.t||q.t)}</span>${zi(esc(q.t))}<span class="sub1">${math(qe.d||q.d)}</span></span><span class="tags">${tagsHTML(q.k)}</span><span class="qn" title="${q.ids.length} 个知识点">${q.ids.length} pts</span></button></li>`}).join('')}</ul></div>`}).join('');
+qtree.addEventListener('click',e=>{const b=e.target.closest('[data-q]');if(b)selectQ(b.dataset.q,false)});
+function qmatch(q){
+  if(qf==='undone'){if(qdone.has(q.id))return false}else if(qf!=='all'&&q.s!==qf)return false;
+  if(qquery){const qe=QE(q.id);const hay=[q.t,q.d,q.p.map(x=>x[1]).join(' '),qe.t||'',qe.d||'',(qe.p||[]).join(' '),q.ids.map(i=>P[i].t+' '+P[i].en).join(' '),SRC[q.s],SRC_EN[q.s]].join(' ').toLowerCase();if(!hay.includes(qquery))return false}
+  return true;
+}
+function applyQ(){
+  qtree.querySelectorAll('li[data-qid]').forEach(li=>{const q=Q[li.dataset.qid];li.classList.toggle('hide',!qmatch(q));li.querySelector('.pt').classList.toggle('done',qdone.has(q.id))});
+  qtree.querySelectorAll('.qgroup').forEach(g=>g.classList.toggle('hide',!g.querySelector('li:not(.hide)')));
+}
+const qdet=document.getElementById('qdetail');
+const kchip=i=>`<button type="button" class="kchip" data-go="${i}">${esc(P[i].en)}${zi(esc(P[i].t))}<small>S${P[i].sec.n}</small></button>`;
+function selectQ(id,scroll){
+  qcur=id;const q=Q[id],qe=QE(id),ep=qe.p||[];
+  qtree.querySelectorAll('.pt').forEach(b=>b.setAttribute('aria-current',b.dataset.q===id));
+  const multi=q.p.length>1||q.p[0][1];
+  const mods=[...new Set(q.ids.map(i=>P[i].mod.en))];
+  qdet.innerHTML=`
+   <div class="d-sec">${SRC_EN[q.s]}${zi(SRC[q.s])}</div>
+   <h3>${esc(qe.t||q.t)}</h3>${zb(esc(q.t))}
+   <div class="d-badges">${[...q.k].map(c=>`<span class="tg ${c}">${TYPES_EN[c]}${zi(TYPES[c])}</span>`).join('')}</div>
+   <div class="note">${math(qe.d||q.d)}${qe.d?zb(math(q.d)):''}</div>
+   ${multi?`<div class="blk">${H4('Knowledge points by part','逐问用到的知识点')}${q.p.map(([lab,txt,ids],i)=>`<div class="part"><div>${lab?`<span class="pl">(${esc(lab)})</span>`:''}${math(ep[i]||txt)}${ep[i]&&txt?zb(math(txt)):''}</div><div class="kchips">${ids.map(kchip).join('')}</div></div>`).join('')}</div>`:''}
+   <div class="blk">${H4(`All knowledge points used (${q.ids.length}, across ${mods.length} module${mods.length>1?'s':''})`,`整题涉及 ${q.ids.length} 个知识点，跨 ${mods.length} 个模块`)}<div class="sumchips">${q.ids.map(kchip).join('')}</div></div>
+   <div class="blk">${H4('Where to find the question and answer','题目与答案在哪')}<div class="note">${esc(qe.ans||q.ans)}${qe.ans?zb(esc(q.ans)):''}</div></div>
+   <button type="button" class="mbtn" id="qbtn" aria-pressed="${qdone.has(id)}">${qdone.has(id)?'✓ Done'+zi('已做'):'Mark as done'+zi('标记为已做')}</button>`;
+  if(scroll){const li=qtree.querySelector(`li[data-qid="${id}"]`);
+    if(li.classList.contains('hide')){qf='all';qquery='';document.getElementById('qq').value='';qfbox.querySelectorAll('[data-qf]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.qf==='all'));applyQ()}
+    li.scrollIntoView({block:'nearest',behavior:'smooth'})}
+  if(window.matchMedia('(max-width:860px)').matches&&scroll===false)qdet.scrollIntoView({behavior:'smooth',block:'start'});
+}
+qdet.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');if(g){showView('tree');select(g.dataset.go,true);return}
+  if(e.target.closest('#qbtn')){qdone.has(qcur)?qdone.delete(qcur):qdone.add(qcur);saveQ();selectQ(qcur,null);applyQ();stats();select(current,null)}
+});
+
+/* ---------- stats ---------- */
+function stats(){
+  const all=ORDER.map(i=>P[i]);const n=all.length;
+  const cnt=k=>all.filter(p=>p.k.includes(k)).length;
+  const m=all.filter(p=>mastered.has(p.id)).length;
+  const qd=QS.filter(q=>qdone.has(q.id)).length;
+  document.getElementById('stats').innerHTML=[
+   [n,'Knowledge points','知识点'],[cnt('P'),'With proofs','含证明'],[cnt('C'),'With concepts','含概念'],[cnt('N'),'With calculations','含计算'],[cnt('R'),'With code','含代码'],
+   [all.filter(p=>p.y).length,'In 2022 exam','2022 考过'],[all.filter(p=>p.note).length+' / '+n,'Have notes','已有笔记'],[all.filter(p=>QI[p.id]).length+' / '+n,'Have questions','有题可练'],
+   [qd+' / '+QS.length,'Questions done','题已做'],[m+' / '+n,'Mastered','已掌握']
+  ].map(([b,en,zh])=>`<div class="stat"><b>${b}</b><span class="lb">${en}${zi(zh)}</span></div>`).join('');
+  document.getElementById('bar').style.width=(100*m/n)+'%';
+  document.getElementById('qcount').textContent=QS.length;
+}
+stats();applyFilter(false);applyQ();select('cond','init');selectQ('f22-3','init');
+
+</script>
