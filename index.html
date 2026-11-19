@@ -360,7 +360,7 @@ const CHAINS=[
  {t:'分类与聚类',d:'从最优规则推出 LDA、QDA，用交叉验证评估；SVM 去掉分布假设；聚类连标签也没有。',ids:['ecm','lda','qda','cv','svmvs','clvs','mbc']}
 ];
 
-const SRC={f22:'2022 期末',mock:'期中模拟卷（Claude 自编）',ex:'讲义练习',eg:'讲义例题',a1:'作业 1',a2:'作业 2',tut:'Tutorial',drill:'期中 Q2 精讲（Claude 自编）'};
+const SRC={f22:'2022 期末',mock:'期中模拟卷',ex:'讲义练习',eg:'讲义例题',a1:'作业 1',a2:'作业 2',tut:'Tutorial',drill:'期中 Q2 精讲'};
 const QS=[
  /* 2022 期末 */
  {id:'f22-1',s:'f22',t:'2022 Q1（5分）',d:'A 任意、Q 正交，证明 A 与 Q^{⊤}AQ 的特征值相同',k:'P',ans:'无官方答案；对话中讲过',p:[['','det(Q^{⊤}AQ − λI) = det(A − λI)，特征多项式相同',['eig']]]},
@@ -441,16 +441,16 @@ const QS=[
  {id:'tut-w9s',s:'tut',t:'W9 结构方程（Anomie）',d:'lavaan 估计与解释',k:'R',ans:'Tutorial 正文；03_代码题清单',p:[['1','估计',['sem','semeval']],['2','解释路径系数',['sem']]]},
  {id:'tut-w10d',s:'tut',t:'W10 判别分析（鸢尾花 + pizza Challenge）',d:'LDA、QDA、交叉验证',k:'R',ans:'Tutorial 正文；Challenge 见 03_代码题清单',p:[['1','LDA 与 QDA 拟合、边界',['lda','qda']],['2','混淆矩阵与交叉验证',['cv','err']],['T1','样本内比较 LDA 与 QDA',['err','qda']],['T2','改用交叉验证比较',['cv']],['T3','用选定的分类器给新 pizza 分类',['lda','qda']]]},
  {id:'tut-w10s',s:'tut',t:'W10 SVM（鸢尾花 + pizza Challenge）',d:'核、调参、ROC',k:'R',ans:'Tutorial 正文；Challenge 见 03_代码题清单',p:[['1','两类 SVM：线性与 RBF 核、参数影响',['hard','soft','kernel']],['2','多类 SVM 与预测',['svmtune']],['3','ROC 曲线比较',['svmtune']],['C','pizza：选择并调参 SVM，交叉验证准确率，分类新样本',['svmtune','kernel','soft']]]},
- /* 精讲自编 */
- {id:'dr-2.5',s:'drill',t:'精讲 2-5',d:'同时置信区间与 Bonferroni 区间（自编，可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['cr']]]},
- {id:'dr-2.8',s:'drill',t:'精讲 2-8',d:'两样本 T² 检验（自编，可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['two']]]},
- {id:'dr-2.12',s:'drill',t:'精讲 2-12',d:'相关系数的检验（自编，可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['corrtest']]]},
+ /* 精讲 */
+ {id:'dr-2.5',s:'drill',t:'精讲 2-5',d:'同时置信区间与 Bonferroni 区间（可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['cr']]]},
+ {id:'dr-2.8',s:'drill',t:'精讲 2-8',d:'两样本 T² 检验（可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['two']]]},
+ {id:'dr-2.12',s:'drill',t:'精讲 2-12',d:'相关系数的检验（可手算）',k:'N',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['corrtest']]]},
  {id:'dr-2.13',s:'drill',t:'精讲 2-13',d:'读 PCA 软件输出（美国犯罪率）',k:'R',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['pcar','pcanum']]]},
  {id:'dr-2.14',s:'drill',t:'精讲 2-14',d:'读 CCA 软件输出（Fitness）',k:'R',ans:'midterm/MATH5855_期中Q2题型精讲.pdf（含解答）',p:[['','',['ccar','ccatest']]]}
 ];
 
 /* ---------- English text ---------- */
-const SRC_EN={f22:'2022 final',mock:'Mock midterm (Claude-made)',ex:'Lecture exercises',eg:'Lecture examples',a1:'Assignment 1',a2:'Assignment 2',tut:'Tutorials',drill:'Midterm drill (Claude-made)'};
+const SRC_EN={f22:'2022 final',mock:'Mock midterm',ex:'Lecture exercises',eg:'Lecture examples',a1:'Assignment 1',a2:'Assignment 2',tut:'Tutorials',drill:'Midterm drill'};
 const TYPES_EN={P:'Proof',C:'Concept',N:'Calculation',R:'Code'};
 const TAB={P:'Pf',C:'Cpt',N:'Calc',R:'R'};
 const EN={
@@ -620,9 +620,9 @@ const QEN={
  'tut-w9s':{t:'W9 Structural equation modelling (anomie)',d:'Estimation and interpretation with lavaan.',p:['Estimation','Interpret the path coefficients'],ans:'Tutorial sheet; coding list'},
  'tut-w10d':{t:'W10 Discriminant analysis (iris + pizza challenge)',d:'LDA, QDA, cross-validation.',p:['Fit LDA and QDA; boundaries','Confusion matrices and cross-validation','Compare LDA and QDA in-sample','Compare them with cross-validation','Classify a new pizza with the chosen classifier'],ans:'Tutorial sheet; challenge results in the coding list'},
  'tut-w10s':{t:'W10 SVM (iris + pizza challenge)',d:'Kernels, tuning, ROC.',p:['Two-class SVM: linear vs RBF kernels, effect of the parameters','Multiclass SVM and prediction','ROC curves','Pizza: select and tune an SVM, cross-validated accuracy, classify a new pizza'],ans:'Tutorial sheet; challenge results in the coding list'},
- 'dr-2.5':{t:'Drill 2-5',d:'Simultaneous and Bonferroni intervals (made-up, hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
- 'dr-2.8':{t:'Drill 2-8',d:'Two-sample T² test (made-up, hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
- 'dr-2.12':{t:'Drill 2-12',d:'Testing correlation coefficients (made-up, hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
+ 'dr-2.5':{t:'Drill 2-5',d:'Simultaneous and Bonferroni intervals (hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
+ 'dr-2.8':{t:'Drill 2-8',d:'Two-sample T² test (hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
+ 'dr-2.12':{t:'Drill 2-12',d:'Testing correlation coefficients (hand-computable).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
  'dr-2.13':{t:'Drill 2-13',d:'Reading PCA output (US crime).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'},
  'dr-2.14':{t:'Drill 2-14',d:'Reading CCA output (fitness).',ans:'midterm/MATH5855_期中Q2题型精讲.pdf (with solutions)'}
 };
